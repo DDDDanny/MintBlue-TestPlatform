@@ -84,6 +84,15 @@ const frameIn = [
         },
         component: _import('testReport/uiTestReport')
       },
+      {
+        path: 'projectManage',
+        name: 'projectManage',
+        meta: {
+          title: '项目管理',
+          auth: true
+        },
+        component: _import('projectManage')
+      },
       // 系统 前端日志
       {
         path: 'log',
