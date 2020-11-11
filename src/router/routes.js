@@ -21,7 +21,6 @@ const frameIn = [
         },
         component: _import('system/index')
       },
-      // 演示页面
       {
         path: 'apiTestCase',
         name: 'apiTestCase',
@@ -57,6 +56,15 @@ const frameIn = [
           auth: true
         },
         component: _import('apiTest/apiParamSetting')
+      },
+      {
+        path: 'uiTestController',
+        name: 'uiTestController',
+        meta: {
+          title: 'UI自动化测试控制器',
+          auth: true
+        },
+        component: _import('uiTest/uiTestController')
       },
       // 系统 前端日志
       {

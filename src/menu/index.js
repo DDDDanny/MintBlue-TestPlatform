@@ -26,6 +26,13 @@ export const menuHeader = supplementPath([
       { path: '/apiTestTask', title: '测试任务管理' },
       { path: '/apiParamSetting', title: '测试参数设置' },
     ]
+  },
+  {
+    title: 'UI自动化测试',
+    icon: 'folder-o',
+    children: [
+      { path: '/uiTestController', title: 'UI自动化测试控制器' },
+    ]
   }
 ])
 
@@ -39,6 +46,13 @@ export const menuAside = supplementPath([
       { path: '/apiTestSuite', title: '测试集管理' },
       { path: '/apiTestTask', title: '测试任务管理' },
       { path: '/apiParamSetting', title: '测试参数设置' },
+    ]
+  },
+  {
+    title: 'UI自动化测试',
+    icon: 'folder-o',
+    children: [
+      { path: '/uiTestController', title: 'UI自动化测试控制器' },
     ]
   }
 ])
