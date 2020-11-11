@@ -23,31 +23,40 @@ const frameIn = [
       },
       // 演示页面
       {
-        path: 'page1',
-        name: 'page1',
+        path: 'apiTestCase',
+        name: 'apiTestCase',
         meta: {
-          title: '页面 1',
+          title: '接口测试用例管理',
           auth: true
         },
-        component: _import('demo/page1')
+        component: _import('apiTest/apiTestCase')
       },
       {
-        path: 'page2',
-        name: 'page2',
+        path: 'apiTestSuite',
+        name: 'apiTestSuite',
         meta: {
-          title: '页面 2',
+          title: '接口测试集管理',
           auth: true
         },
-        component: _import('demo/page2')
+        component: _import('apiTest/apiTestSuite')
       },
       {
-        path: 'page3',
-        name: 'page3',
+        path: 'apiTestTask',
+        name: 'apiTestTask',
         meta: {
-          title: '页面 3',
+          title: '接口测试任务管理',
           auth: true
         },
-        component: _import('demo/page3')
+        component: _import('apiTest/apiTestTask')
+      },
+      {
+        path: 'apiParamSetting',
+        name: 'apiParamSetting',
+        meta: {
+          title: '接口测试参数设置',
+          auth: true
+        },
+        component: _import('apiTest/apiParamSetting')
       },
       // 系统 前端日志
       {
