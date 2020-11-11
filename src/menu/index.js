@@ -33,7 +33,15 @@ export const menuHeader = supplementPath([
     children: [
       { path: '/uiTestController', title: 'UI自动化测试控制器' },
     ]
-  }
+  },
+  {
+    title: '测试报告',
+    icon: 'folder-o',
+    children: [
+      { path: '/apiTestReport', title: '接口自动化测试报告' },
+      { path: '/uiTestReport', title: 'UI自动化测试报告' },
+    ]
+  },
 ])
 
 export const menuAside = supplementPath([
@@ -53,6 +61,14 @@ export const menuAside = supplementPath([
     icon: 'folder-o',
     children: [
       { path: '/uiTestController', title: 'UI自动化测试控制器' },
+    ]
+  },
+  {
+    title: '测试报告',
+    icon: 'folder-o',
+    children: [
+      { path: '/apiTestReport', title: '接口自动化测试报告' },
+      { path: '/uiTestReport', title: 'UI自动化测试报告' },
     ]
   }
 ])

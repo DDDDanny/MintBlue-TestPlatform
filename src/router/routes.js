@@ -66,6 +66,24 @@ const frameIn = [
         },
         component: _import('uiTest/uiTestController')
       },
+      {
+        path: 'apiTestReport',
+        name: 'apiTestReport',
+        meta: {
+          title: '接口自动化测试报告',
+          auth: true
+        },
+        component: _import('testReport/apiTestReport')
+      },
+      {
+        path: 'uiTestReport',
+        name: 'uiTestReport',
+        meta: {
+          title: 'UI自动化测试报告',
+          auth: true
+        },
+        component: _import('testReport/uiTestReport')
+      },
       // 系统 前端日志
       {
         path: 'log',
