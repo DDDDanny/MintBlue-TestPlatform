@@ -14,15 +14,15 @@
           <el-table-column label="创建人" width="150" prop="creater"></el-table-column>
           <el-table-column label="操作" width="100" fixed="right">
             <template slot-scope="">
-              <el-button type="text" size="medium">编辑</el-button>
+              <el-button type="text" size="medium" @click="editProjectInfo">编辑</el-button>
               <el-button type="text" size="medium" @click="delProject">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog title="新增项目" :visible.sync="projectDialogDisplay" width="50%" @close="cancelAddProject">
-      <el-form :model="projectAddForm" :rules="projectAddRules" ref="projectAddRuleForm">
+    <el-dialog :title="dialogTitle" :visible.sync="projectDialogDisplay" width="50%" @close="cancelAddProject">
+      <el-form :model="projectAddForm" :rules="projectAddRules" ref="projectAddRuleForm" label-width="80px">
         <el-form-item label="项目名称" prop="proName">
           <el-input v-model="projectAddForm.proName" autocomplete="off"></el-input>
         </el-form-item>
@@ -33,7 +33,7 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelAddProject">取 消</el-button>
-        <el-button type="primary" @click="submitAddProject">确 定</el-button>
+        <el-button type="primary" @click="handleSubmitInfo">确 定</el-button>
       </span>
       </el-dialog>
   </d2-container>
@@ -63,7 +63,15 @@ export default {
         proName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' }
         ]
-      }
+      },
+      isEdit: false
+    }
+  },
+  computed: {
+    // 获取 Dialog Title
+    dialogTitle: function () {
+      if (this.isEdit) return '编辑项目'
+      return '新增项目'
     }
   },
   methods: {
@@ -84,19 +92,27 @@ export default {
     },
     // 新增项目
     addProject () {
+      this.isEdit = false
       this.projectDialogDisplay = true
     },
     // 提交新增项目信息
-    submitAddProject () {
+    handleSubmitInfo () {
       this.$refs.projectAddRuleForm.validate((valid) => {
         if (!valid) {
           this.$message.error('请填写必填项！')
           return
         }
-        // 这里写新增项目的逻辑
-        // ---
-        // ---
-        this.$message.success('新增项目成功！')
+        if (!this.isEdit) {
+          // 这里写新增项目的逻辑
+          // ---
+          // ---
+          this.$message.success('新增项目成功！')
+        } else {
+          // 这里写编辑项目的逻辑
+          // ---
+          // ---
+          this.$message.success('项目更新成功！')
+        }
         // 隐藏弹框
         this.projectDialogDisplay = false
         // 重置数据
@@ -109,6 +125,14 @@ export default {
       this.$refs.projectAddRuleForm.resetFields()
       // 隐藏弹框
       this.projectDialogDisplay = false
+    },
+    // 编辑项目信息
+    editProjectInfo () {
+      this.isEdit = true
+      this.projectDialogDisplay = true
+      // 获取编辑项目信息逻辑写在这
+      // ---
+      // ---
     }
   }
 }
