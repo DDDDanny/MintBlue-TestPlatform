@@ -27,16 +27,16 @@
 <script>
 export default {
   name: 'projectManage',
-  data() {
+  data () {
     return {
       // 项目数据
       projectInfo: [
         { projectName: '项目1', projectDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' },
         { projectName: '项目2', projectDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' },
-        { projectName: '项目3', projectDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' },
+        { projectName: '项目3', projectDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' }
       ],
       // 表格表头数据
-      tableHeaderColor: {background:'#FAFAFA'}
+      tableHeaderColor: { background: '#FAFAFA' }
     }
   },
   methods: {
