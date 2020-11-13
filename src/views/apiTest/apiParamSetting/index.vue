@@ -1,12 +1,27 @@
 <template>
   <d2-container>
-    <template slot="header">ApiParamSetting</template>
-    Init ApiParamSetting
+    <el-tabs type="border-card" v-model="activeName">
+      <el-tab-pane label="版本号" name="ver">
+        <ver-setting/>
+      </el-tab-pane>
+      <el-tab-pane label="环境参数" name="env">
+        <env-setting/>
+      </el-tab-pane>
+    </el-tabs>
   </d2-container>
 </template>
 
 <script>
+import envSetting from '@/views/apiTest/apiParamSetting/components/envSetting'
+import verSetting from '@/views/apiTest/apiParamSetting/components/verSetting'
+
 export default {
-  name: 'apiParamSetting'
+  name: 'apiParamSetting',
+  components: { envSetting, verSetting },
+  data() {
+    return {
+      activeName: 'env'
+    }
+  },
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <d2-container>
     <el-row justify="end" type="flex" class="button-bar">
-      <el-col :span="2">
+      <el-col :span="3" :offset="3">
         <el-button type="primary" @click="addProject">新增项目</el-button>
       </el-col>
     </el-row>
@@ -137,6 +137,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
   .button-bar {
     margin-bottom: 25px;
