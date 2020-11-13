@@ -96,6 +96,8 @@ export default {
     addVersion () {
       this.isEdit = false
       this.versionDialogDisplay = true
+      // 点击新增环境信息时，清空一次表单数据
+      Object.keys(this.versionInfoForm).forEach(key => (this.versionInfoForm[key]=''))
     },
     // 处理提交版本信息
     handleSubmitVer () {
@@ -119,7 +121,6 @@ export default {
         this.versionDialogDisplay = false
         // 重置数据
         this.$refs.versionRuleForm.resetFields()
-        Object.keys(this.versionInfoForm).forEach(key => (this.versionInfoForm[key]=''))
       })
     },
     // 处理取消新增

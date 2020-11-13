@@ -109,7 +109,6 @@ export default {
           // 新增环境信息逻辑写在这里
           //
           //
-          console.log(this.envInfoForm);
           this.$message.success('新增环境信息成功')
         } else {
           // 编辑环境信息逻辑写在这里
@@ -129,7 +128,6 @@ export default {
       this.envDialogDisplay = false
       // 重置数据
       this.$refs.envRuleForm.resetFields()
-      console.log(this.envInfoForm);
     },
     // 编辑环境信息
     editEnv (envRow) {
