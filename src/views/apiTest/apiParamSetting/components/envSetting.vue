@@ -13,15 +13,15 @@
           <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
           <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
           <el-table-column label="操作" width="100" fixed="right">
-            <template slot-scope="">
-              <el-button type="text" size="medium">编辑</el-button>
+            <template slot-scope="scope">
+              <el-button type="text" size="medium" @click="editEnv(scope.row)">编辑</el-button>
               <el-button type="text" size="medium" @click="delEnv">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog title="新增环境参数" :visible.sync="envDialogDisplay" width="50%" @close="handleCancelAddEnv">
+    <el-dialog :title="dialogTitle" :visible.sync="envDialogDisplay" width="50%" @close="handleCancelAddEnv">
       <el-form :model="envInfoForm" :rules="envInfoRules" ref="envRuleForm" label-width="80px">
         <el-form-item label="环境名称" prop="envName">
           <el-input v-model="envInfoForm.envName" autocomplete="off"></el-input>
@@ -64,7 +64,15 @@ export default {
         baseURL: [
           { required: true, message: '请输入基础地址', trigger: 'blur' }
         ]
-      }
+      },
+      // 判断是否为编辑
+      isEdit: false
+    }
+  },
+  computed: {
+    dialogTitle: function () {
+      if (this.isEdit) return '编辑环境参数'
+      return '新增环境参数'
     }
   },
   methods: {
@@ -85,7 +93,10 @@ export default {
     },
     // 新增环境信息
     addEnv () {
+      this.isEdit = false
       this.envDialogDisplay = true
+      // 点击新增环境信息时，清空一次表单数据
+      Object.keys(this.envInfoForm).forEach(key => (this.envInfoForm[key]=''))
     },
     // 处理提交环境信息
     handleSubmitEnv () {
@@ -94,8 +105,21 @@ export default {
           this.$message.error('请填写必填项！')
           return
         }
-        this.$message.success('新增环境信息成功')
+        if (!this.isEdit) {
+          // 新增环境信息逻辑写在这里
+          //
+          //
+          console.log(this.envInfoForm);
+          this.$message.success('新增环境信息成功')
+        } else {
+          // 编辑环境信息逻辑写在这里
+          //
+          //
+          this.$message.success('更新环境信息成功')
+        }
+        // 隐藏弹框
         this.envDialogDisplay = false
+        // 重置数据
         this.$refs.envRuleForm.resetFields()
       })
     },
@@ -105,6 +129,14 @@ export default {
       this.envDialogDisplay = false
       // 重置数据
       this.$refs.envRuleForm.resetFields()
+      console.log(this.envInfoForm);
+    },
+    // 编辑环境信息
+    editEnv (envRow) {
+      this.isEdit = true
+      this.envDialogDisplay = true
+      this.envInfoForm.envName = envRow.envName
+      this.envInfoForm.baseURL = envRow.baseURL
     }
   },
 }
