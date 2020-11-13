@@ -21,7 +21,7 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog title="新增版本号" :visible.sync="versionDialogDisplay" width="50%" @close="handleCancelAddVer">
+    <el-dialog :title="dialogTitle" :visible.sync="versionDialogDisplay" width="50%" @close="handleCancelAddVer">
       <el-form :model="versionInfoForm" :rules="versionInfoRules" ref="versionRuleForm" label-width="80px">
         <el-form-item label="版本号" prop="version">
           <el-input v-model="versionInfoForm.version" autocomplete="off"></el-input>
@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     // 获取 Dialog Title
-    diglogTitle: function () {
+    dialogTitle: function () {
       if (this.isEdit) return '编辑版本号'
       return '新增版本号'
     }
