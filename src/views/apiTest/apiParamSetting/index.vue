@@ -20,7 +20,7 @@ export default {
   components: { envSetting, verSetting },
   data() {
     return {
-      activeName: 'env'
+      activeName: 'ver'
     }
   },
 }
