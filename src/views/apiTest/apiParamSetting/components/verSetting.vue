@@ -9,12 +9,12 @@
       <el-col :span="24">
         <el-table :data="versionInfo" :header-cell-style="tableHeaderColor" border>
           <el-table-column label="版本号" prop="version"></el-table-column>
-          <el-table-column label="版本信息" min-width="200" prop="verInfo"></el-table-column>
+          <el-table-column label="版本信息" min-width="200" prop="verDesc"></el-table-column>
           <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
           <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
           <el-table-column label="操作" width="100" fixed="right">
-            <template slot-scope="">
-              <el-button type="text" size="medium">编辑</el-button>
+            <template slot-scope="scope">
+              <el-button type="text" size="medium" @click="editVersion(scope.row)">编辑</el-button>
               <el-button type="text" size="medium" @click="delVersion">删除</el-button>
             </template>
           </el-table-column>
@@ -44,8 +44,8 @@ export default {
   data() {
     return {
       versionInfo: [
-        { version: 'V2.10.0', verInfo: '版本信息1', createTime: '2020.11.12', creator: 'DDDDanny' },
-        { version: 'V2.11.0', verInfo: '版本信息2', createTime: '2020.11.13', creator: 'DDDDanny' }
+        { version: 'V2.10.0', verDesc: '版本信息1', createTime: '2020.11.12', creator: 'DDDDanny' },
+        { version: 'V2.11.0', verDesc: '版本信息2', createTime: '2020.11.13', creator: 'DDDDanny' }
       ],
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
@@ -64,7 +64,16 @@ export default {
         verDesc: [
           { required: true, message: '请输入版本信息', trigger: 'blur' }
         ]
-      }
+      },
+      // 判断是否为编辑
+      isEdit: false
+    }
+  },
+  computed: {
+    // 获取 Dialog Title
+    diglogTitle: function () {
+      if (this.isEdit) return '编辑版本号'
+      return '新增版本号'
     }
   },
   methods: {
@@ -85,6 +94,7 @@ export default {
     },
     // 新增版本信息
     addVersion () {
+      this.isEdit = false
       this.versionDialogDisplay = true
     },
     // 处理提交版本信息
@@ -94,11 +104,22 @@ export default {
           this.$message.error('请填写必填项！')
           return
         }
-        this.$message.success('新增版本号成功！')
+        if (!this.isEdit) {
+          // 新增版本号逻辑写在这
+          //
+          //
+          this.$message.success('新增版本号成功！')
+        } else {
+          // 编辑版本号逻辑写在这
+          //
+          //
+          this.$message.success('更新版本号成功！')
+        }
         // 隐藏弹框
         this.versionDialogDisplay = false
         // 重置数据
         this.$refs.versionRuleForm.resetFields()
+        Object.keys(this.versionInfoForm).forEach(key => (this.versionInfoForm[key]=''))
       })
     },
     // 处理取消新增
@@ -107,6 +128,13 @@ export default {
       this.versionDialogDisplay = false
       // 重置数据
       this.$refs.versionRuleForm.resetFields()
+    },
+    // 编辑版本号
+    editVersion (verRow) {
+      this.isEdit = true
+      this.versionDialogDisplay = true
+      this.versionInfoForm.version = verRow.version
+      this.versionInfoForm.verDesc = verRow.verDesc
     }
   },
 }
