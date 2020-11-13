@@ -41,7 +41,7 @@
 <script>
 export default {
   name: 'envSetting',
-  data() {
+  data () {
     return {
       envInfo: [
         { envName: '正式环境', baseURL: 'https://xiaojing0.com/workbench_api', createTime: '2020.11.12', creator: 'DDDDanny' },
@@ -96,7 +96,7 @@ export default {
       this.isEdit = false
       this.envDialogDisplay = true
       // 点击新增环境信息时，清空一次表单数据
-      Object.keys(this.envInfoForm).forEach(key => (this.envInfoForm[key]=''))
+      Object.keys(this.envInfoForm).forEach(key => (this.envInfoForm[key] = ''))
     },
     // 处理提交环境信息
     handleSubmitEnv () {
@@ -136,7 +136,7 @@ export default {
       this.envInfoForm.envName = envRow.envName
       this.envInfoForm.baseURL = envRow.baseURL
     }
-  },
+  }
 }
 </script>
 

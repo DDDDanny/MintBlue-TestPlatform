@@ -41,7 +41,7 @@
 <script>
 export default {
   name: 'verSetting',
-  data() {
+  data () {
     return {
       versionInfo: [
         { version: 'V2.10.0', verDesc: '版本信息1', createTime: '2020.11.12', creator: 'DDDDanny' },
@@ -97,7 +97,7 @@ export default {
       this.isEdit = false
       this.versionDialogDisplay = true
       // 点击新增环境信息时，清空一次表单数据
-      Object.keys(this.versionInfoForm).forEach(key => (this.versionInfoForm[key]=''))
+      Object.keys(this.versionInfoForm).forEach(key => (this.versionInfoForm[key] = ''))
     },
     // 处理提交版本信息
     handleSubmitVer () {
@@ -137,7 +137,7 @@ export default {
       this.versionInfoForm.version = verRow.version
       this.versionInfoForm.verDesc = verRow.verDesc
     }
-  },
+  }
 }
 </script>
 
