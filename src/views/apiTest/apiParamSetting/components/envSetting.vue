@@ -21,7 +21,7 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog :title="dialogTitle" :visible.sync="envDialogDisplay" width="50%" @close="handleCancelAddEnv">
+    <el-dialog :title="dialogTitle" :visible.sync="envDialogDisplay" width="50%" @close="handleCloseDialog">
       <el-form :model="envInfoForm" :rules="envInfoRules" ref="envRuleForm" label-width="80px">
         <el-form-item label="环境名称" prop="envName">
           <el-input v-model="envInfoForm.envName" autocomplete="off"></el-input>
@@ -31,7 +31,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="handleCancelAddEnv">取 消</el-button>
+        <el-button @click="envDialogDisplay = false">取 消</el-button>
         <el-button type="primary" @click="handleSubmitEnv">确 定</el-button>
       </span>
     </el-dialog>
@@ -118,14 +118,10 @@ export default {
         }
         // 隐藏弹框
         this.envDialogDisplay = false
-        // 重置数据
-        this.$refs.envRuleForm.resetFields()
       })
     },
     // 处理取消新增
-    handleCancelAddEnv () {
-      // 隐藏弹框
-      this.envDialogDisplay = false
+    handleCloseDialog () {
       // 重置数据
       this.$refs.envRuleForm.resetFields()
     },

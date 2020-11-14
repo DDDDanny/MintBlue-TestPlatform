@@ -21,7 +21,7 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog :title="dialogTitle" :visible.sync="versionDialogDisplay" width="50%" @close="handleCancelAddVer">
+    <el-dialog :title="dialogTitle" :visible.sync="versionDialogDisplay" width="50%" @close="handleCloseDialog">
       <el-form :model="versionInfoForm" :rules="versionInfoRules" ref="versionRuleForm" label-width="80px">
         <el-form-item label="版本号" prop="version">
           <el-input v-model="versionInfoForm.version" autocomplete="off"></el-input>
@@ -31,7 +31,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="handleCancelAddVer">取 消</el-button>
+        <el-button @click="versionDialogDisplay = false">取 消</el-button>
         <el-button type="primary" @click="handleSubmitVer">确 定</el-button>
       </span>
     </el-dialog>
@@ -119,14 +119,10 @@ export default {
         }
         // 隐藏弹框
         this.versionDialogDisplay = false
-        // 重置数据
-        this.$refs.versionRuleForm.resetFields()
       })
     },
-    // 处理取消新增
-    handleCancelAddVer () {
-      // 隐藏弹框
-      this.versionDialogDisplay = false
+    // 处理弹框关闭事件
+    handleCloseDialog () {
       // 重置数据
       this.$refs.versionRuleForm.resetFields()
     },
