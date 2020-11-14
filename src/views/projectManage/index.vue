@@ -8,31 +8,30 @@
     <el-row justify="center">
       <el-col :span="24">
         <el-table :data="projectInfo" border :header-cell-style="tableHeaderColor">
-          <el-table-column label="项目名称" prop="projectName"></el-table-column>
-          <el-table-column label="项目描述" prop="projectDesc"></el-table-column>
+          <el-table-column label="项目名称" prop="proName"></el-table-column>
+          <el-table-column label="项目描述" prop="proDesc"></el-table-column>
           <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
           <el-table-column label="创建人" width="150" prop="creater"></el-table-column>
           <el-table-column label="操作" width="100" fixed="right">
-            <template slot-scope="">
-              <el-button type="text" size="medium" @click="editProjectInfo">编辑</el-button>
+            <template slot-scope="scope">
+              <el-button type="text" size="medium" @click="editProjectInfo(scope.row)">编辑</el-button>
               <el-button type="text" size="medium" @click="delProject">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog :title="dialogTitle" :visible.sync="projectDialogDisplay" width="50%" @close="cancelAddProject">
-      <el-form :model="projectAddForm" :rules="projectAddRules" ref="projectAddRuleForm" label-width="80px">
+    <el-dialog :title="dialogTitle" :visible.sync="projectDialogDisplay" width="50%" @close="handleCloseDialog">
+      <el-form :model="projectForm" :rules="projectAddRules" ref="projectAddRuleForm" label-width="80px">
         <el-form-item label="项目名称" prop="proName">
-          <el-input v-model="projectAddForm.proName" autocomplete="off"></el-input>
+          <el-input v-model="projectForm.proName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="项目描述" prop="proDesc">
-          <el-input v-model="projectAddForm.proDesc" autocomplete="off"></el-input>
+          <el-input v-model="projectForm.proDesc" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
-
       <span slot="footer" class="dialog-footer">
-        <el-button @click="cancelAddProject">取 消</el-button>
+        <el-button @click="projectDialogDisplay = false">取 消</el-button>
         <el-button type="primary" @click="handleSubmitInfo">确 定</el-button>
       </span>
       </el-dialog>
@@ -46,16 +45,16 @@ export default {
     return {
       // 项目数据
       projectInfo: [
-        { projectName: '项目1', projectDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' },
-        { projectName: '项目2', projectDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' },
-        { projectName: '项目3', projectDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' }
+        { proName: '项目1', proDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' },
+        { proName: '项目2', proDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' },
+        { proName: '项目3', proDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' }
       ],
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
       // 项目新增/编辑弹框
       projectDialogDisplay: false,
       // 新增项目表单
-      projectAddForm: {
+      projectForm: {
         proName: '',
         proDesc: ''
       },
@@ -94,6 +93,8 @@ export default {
     addProject () {
       this.isEdit = false
       this.projectDialogDisplay = true
+      // 点击新增环境信息时，清空一次表单数据
+      Object.keys(this.projectForm).forEach(key => (this.projectForm[key] = ''))
     },
     // 提交新增项目信息
     handleSubmitInfo () {
@@ -115,21 +116,20 @@ export default {
         }
         // 隐藏弹框
         this.projectDialogDisplay = false
-        // 重置数据
-        this.$refs.projectAddRuleForm.resetFields()
       })
     },
-    // 取消添加项目
-    cancelAddProject () {
+    // 处理弹窗关闭事件
+    handleCloseDialog () {
       // 重置数据
       this.$refs.projectAddRuleForm.resetFields()
-      // 隐藏弹框
-      this.projectDialogDisplay = false
     },
     // 编辑项目信息
-    editProjectInfo () {
+    editProjectInfo (proRow) {
       this.isEdit = true
       this.projectDialogDisplay = true
+      console.log(proRow);
+      this.projectForm.proName = proRow.proName
+      this.projectForm.proDesc = proRow.proDesc
       // 获取编辑项目信息逻辑写在这
       // ---
       // ---
