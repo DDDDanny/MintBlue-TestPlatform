@@ -2,7 +2,7 @@
   <d2-container>
     <el-row justify="end" type="flex" class="button-bar">
       <el-col :span="3" :offset="3">
-        <el-button type="primary">新增测试用例</el-button>
+        <el-button type="primary" @click="goAddCase">新增测试用例</el-button>
       </el-col>
       <el-col :span="6" :gutter="12">
         <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getCaseList">
@@ -41,12 +41,16 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"/>
     </div>
+    <temp-page :drawerVisible="tempPageVisible" @handleClose="handleClose" />
   </d2-container>
 </template>
 
 <script>
+import tempPage from '@/views/apiTest/apiTestCase/tempPage'
+
 export default {
   name: 'apiTestCase',
+  components: { tempPage },
   data () {
     return {
       caseInfo: [
@@ -63,7 +67,9 @@ export default {
         query: '',
         pagenum: 1,
         pagesize: 1
-      }
+      },
+      // TempPage 开关
+      tempPageVisible: false
     }
   },
   created () {
@@ -86,6 +92,14 @@ export default {
     handleCurrentChange (newPage) {
       this.queryInfo.pagenum = newPage
       this.getCaseList()
+    },
+    // 点击新增测试用例
+    goAddCase () {
+      this.tempPageVisible = true
+    },
+    // 处理TempPage关闭事件
+    handleClose () {
+      this.tempPageVisible = false
     }
   }
 }
