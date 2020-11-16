@@ -1,7 +1,9 @@
 <template>
     <div>
-      <el-drawer :visible="drawerVisible" size="800px" @close="handleClose">
-        <span>Add TestCase Form</span>
+      <el-drawer :visible="drawerVisible" size="800px" :append-to-body="true"  @close="handleClose">
+        <template slot="title">
+          <h3>新增测试用例</h3>
+        </template>
       </el-drawer>
     </div>
 </template>
@@ -27,5 +29,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+  // 解决element ui drawer组件出现篮框的Bug
+  ::v-deep :focus {
+    outline: 0;
+  }
 </style>
