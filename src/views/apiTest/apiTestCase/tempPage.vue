@@ -39,7 +39,7 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
       form: {
         name: ''
@@ -75,7 +75,7 @@ export default {
     box-shadow: 0px -1px 4px 0px rgba(195, 195, 195, 0.5);
   }
   .temp-title {
-    color: #000000; 
-    font-size:20px  
+    color: #000000;
+    font-size:20px;
   }
 </style>
