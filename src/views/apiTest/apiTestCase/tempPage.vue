@@ -4,11 +4,18 @@
         <template slot="title">
           <span class="temp-title">新增测试用例</span>
         </template>
-        <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="活动名称">
-            <el-input v-model="form.name"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-row>
+          <el-col :span="22" :offset="1">
+            <el-form ref="form" :model="form" label-width="80px">
+              <el-form-item label="用例名称">
+                <el-input v-model="form.name" ></el-input>
+              </el-form-item>
+              <el-form-item label="用例描述">
+                <el-input v-model="form.desc" ></el-input>
+              </el-form-item>
+            </el-form>
+          </el-col>
+        </el-row>
         <div class="btn-group">
           <div class="temp-page-btn-bar">
             <el-button @click="handleClose" >取消</el-button>
