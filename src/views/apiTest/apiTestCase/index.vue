@@ -41,16 +41,16 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"/>
     </div>
-    <temp-page :drawerVisible="tempPageVisible" @handleClose="handleClose" />
+    <add-case-form :drawerVisible="tempPageVisible" @handleClose="handleClose" />
   </d2-container>
 </template>
 
 <script>
-import tempPage from '@/views/apiTest/apiTestCase/tempPage'
+import addCaseForm from '@/views/apiTest/apiTestCase/addCaseForm'
 
 export default {
   name: 'apiTestCase',
-  components: { tempPage },
+  components: { addCaseForm },
   data () {
     return {
       caseInfo: [
