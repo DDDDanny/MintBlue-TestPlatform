@@ -9,14 +9,14 @@
         </el-col>
         <el-col :span="10" :offset="1">
           <el-form-item label="用例等级">
-            <el-select v-model="addCaseForm.caseLevel" placeholder="请选择">
+            <el-select v-model="addCaseForm.caseLevel" placeholder="请选择等级">
               <el-option v-for="item in caseLevel" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="10" :offset="2">
           <el-form-item label="请求方式">
-            <el-select v-model="addCaseForm.requestMethod" placeholder="请选择">
+            <el-select v-model="addCaseForm.requestMethod" placeholder="请选择方式">
               <el-option v-for="item in requestMethod" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
@@ -50,7 +50,14 @@
         </el-col>
         <el-col :span="22" :offset="1">
           <el-form-item label="获取参数">
-            <el-input v-model="addCaseForm.param"></el-input>
+            <el-row>
+              <el-col :span="23">
+                <param-group v-model="addCaseForm.param" />
+              </el-col>
+              <el-col :span="1">
+                <el-button type="primary" size="mini" class="el-icon-plus" circle></el-button>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="22" :offset="1">
@@ -68,11 +75,12 @@
 </template>
 <script>
 import tempPage from '@/components/tempPage'
-import assertGroup from '@/views/apiTest/apiTestCase/assertGroup'
+import assertGroup from '@/views/apiTest/apiTestCase/components/assertGroup'
+import paramGroup from '@/views/apiTest/apiTestCase/components/paramGroup'
 
 export default {
   name: 'addCaseForm',
-  components: { tempPage, assertGroup },
+  components: { tempPage, assertGroup, paramGroup },
   props: {
     drawerVisible: {
       type: Boolean,
