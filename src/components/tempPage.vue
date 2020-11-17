@@ -4,7 +4,7 @@
       <span class="temp-title">新增测试用例</span>
     </template>
     <slot></slot>
-  </el-drawer>  
+  </el-drawer>
 </template>
 <script>
 export default {

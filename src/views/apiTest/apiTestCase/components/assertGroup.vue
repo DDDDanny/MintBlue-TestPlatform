@@ -24,17 +24,17 @@
 <script>
 export default {
   name: 'assertGroup',
-  data() {
+  data () {
     return {
       assertInfo: {},
       assertConditions: [
         { value: '==', label: '等于' },
         { value: '!=', label: '不等于' },
         { value: 'In', label: '包含' },
-        { value: 'notIn', label: '不包含' },
+        { value: 'notIn', label: '不包含' }
       ]
     }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>

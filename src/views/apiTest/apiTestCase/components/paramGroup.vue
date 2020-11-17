@@ -17,11 +17,11 @@
 <script>
 export default {
   name: 'paramGroup',
-  data() {
-      return {
-        paramInfo: {}
-      }
-  },
+  data () {
+    return {
+      paramInfo: {}
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

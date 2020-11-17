@@ -92,11 +92,13 @@ export default {
       addCaseForm: {},
       // 测试用例等级下拉选项
       caseLevel: [
-        { value: 1, label: '低'}, { value: 2, label: '中'}, { value: 3, label: '高'}
+        { value: 1, label: '低' },
+        { value: 2, label: '中' },
+        { value: 3, label: '高' }
       ],
       // 请求方式下拉选项
       requestMethod: [
-        { value: 'post', label: 'POST'}, { value: 'get', label: 'GET'}
+        { value: 'post', label: 'POST' }, { value: 'get', label: 'GET' }
       ],
       xxx: {}
     }
