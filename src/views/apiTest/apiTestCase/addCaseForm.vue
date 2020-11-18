@@ -4,46 +4,49 @@
       <el-row>
         <el-col :span="22" :offset="1" >
           <el-form-item label="用例名称">
-            <el-input v-model="addCaseForm.caseName" placeholder="请输入用例名称"></el-input>
+            <el-input v-model="addCaseForm.caseName" placeholder="请输入用例名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10" :offset="1">
           <el-form-item label="用例等级">
-            <el-select v-model="addCaseForm.caseLevel" placeholder="请选择等级">
+            <el-select v-model="addCaseForm.caseLevel" placeholder="请选择等级" clearable>
               <el-option v-for="item in caseLevel" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="10" :offset="2">
           <el-form-item label="请求方式">
-            <el-select v-model="addCaseForm.requestMethod" placeholder="请选择方式">
+            <el-select v-model="addCaseForm.requestMethod" placeholder="请选择方式" clearable>
               <el-option v-for="item in requestMethod" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="22" :offset="1">
           <el-form-item label="请求URL">
-            <el-input v-model="addCaseForm.requestUrl" placeholder="请输入请求URL"></el-input>
+            <el-input v-model="addCaseForm.requestUrl" placeholder="请输入请求URL" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="22" :offset="1">
           <el-form-item label="请求头">
-            <el-input v-model="addCaseForm.requestHeader" placeholder="请输入请求头"></el-input>
+            <el-input v-model="addCaseForm.requestHeader" placeholder="请输入请求头" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="22" :offset="1">
           <el-form-item label="请求内容">
-            <el-input type="textarea" :rows="5" v-model="addCaseForm.requestBody" placeholder="请输入请求内容"></el-input>
+            <el-input type="textarea" :rows="5" v-model="addCaseForm.requestBody" placeholder="请输入请求内容" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="22" :offset="1">
           <el-form-item label="断言条件">
-            <el-row>
-              <el-col :span="23">
-                <assert-group v-model="addCaseForm.assertInfo"/>
+            <el-row v-for="(item, index) in addCaseForm.assertInfos" :key="index" class="assert-group">
+              <el-col :span="20">
+                <assert-group v-model="addCaseForm.assertInfos[index]" />
               </el-col>
-              <el-col :span="1">
-                <el-button type="primary" size="mini" class="el-icon-plus" circle></el-button>
+              <el-col :span="2">
+                <el-button type="primary" size="mini" class="el-icon-plus" circle @click="addAssertGroup"></el-button>
+              </el-col>
+              <el-col :span="2">
+                <el-button type="primary" size="mini" class="el-icon-minus" circle @click="delAssertGroup(index)"></el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -62,14 +65,14 @@
         </el-col>
         <el-col :span="22" :offset="1">
           <el-form-item label="备注">
-            <el-input v-model="addCaseForm.remark" placeholder="请输入备注"></el-input>
+            <el-input v-model="addCaseForm.remark" placeholder="请输入备注" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
     <div class="btn-group">
       <el-button @click="handleClose">取消</el-button>
-      <el-button type="primary">提交</el-button>
+      <el-button type="primary" @click="handleSubmit">提交</el-button>
     </div>
   </temp-page>
 </template>
@@ -89,7 +92,9 @@ export default {
   },
   data () {
     return {
-      addCaseForm: {},
+      addCaseForm: {
+        assertInfos: [{}],
+      },
       // 测试用例等级下拉选项
       caseLevel: [
         { value: 1, label: '低' },
@@ -106,6 +111,21 @@ export default {
   methods: {
     handleClose () {
       this.$emit('handleClose')
+    },
+    handleSubmit () {
+      this.$emit('handleSubmit', this.addCaseForm)
+    },
+    // 新增断言组
+    addAssertGroup () {
+      this.addCaseForm.assertInfos.push({})
+    },
+    // 删除断言组
+    delAssertGroup (index) {
+      if (this.addCaseForm.assertInfos.length <= 1) {
+        this.$message.warning('断言条件不能全部删除哟～')
+        return
+      }
+      this.addCaseForm.assertInfos.splice(index, 1)
     }
   }
 }
@@ -128,5 +148,8 @@ export default {
       width: 150px;
       margin-right: 20px;
     }
+  }
+  .assert-group {
+    margin-bottom: 10px;
   }
 </style>

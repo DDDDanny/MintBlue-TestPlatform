@@ -41,7 +41,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"/>
     </div>
-    <add-case-form :drawerVisible="tempPageVisible" @handleClose="handleClose" />
+    <add-case-form :drawerVisible="tempPageVisible" @handleClose="handleClose" @handleSubmit="handleSubmit" />
   </d2-container>
 </template>
 
@@ -115,6 +115,10 @@ export default {
       }).catch(() => {
         this.$message.info('您已取消删除～')
       })
+    },
+    // 提交测试用例
+    handleSubmit (val) {
+      console.log(val);
     }
   }
 }

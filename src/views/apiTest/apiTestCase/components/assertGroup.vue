@@ -24,9 +24,17 @@
 <script>
 export default {
   name: 'assertGroup',
+  props: {
+    assertInfo: {
+      type: Object,
+      default: () => ({})
+    },
+  },
+  model: {
+    prop: 'assertInfo',
+  },
   data () {
     return {
-      assertInfo: {},
       assertConditions: [
         { value: '==', label: '等于' },
         { value: '!=', label: '不等于' },
