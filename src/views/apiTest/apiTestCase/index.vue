@@ -118,6 +118,7 @@ export default {
     },
     // 提交测试用例
     handleSubmit (val) {
+      
       console.log(val);
     }
   }

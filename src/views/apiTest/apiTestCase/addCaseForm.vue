@@ -33,7 +33,7 @@
         </el-col>
         <el-col :span="22" :offset="1">
           <el-form-item label="请求内容">
-            <el-input type="textarea" :rows="5" v-model="addCaseForm.requestBody" placeholder="请输入请求内容" clearable></el-input>
+            <el-input type="textarea" :rows="5" v-model="addCaseForm.requestBody" placeholder="请输入请求内容"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="22" :offset="1">
@@ -46,19 +46,22 @@
                 <el-button type="primary" size="mini" class="el-icon-plus" circle @click="addAssertGroup"></el-button>
               </el-col>
               <el-col :span="2">
-                <el-button type="primary" size="mini" class="el-icon-minus" circle @click="delAssertGroup(index)"></el-button>
+                <el-button type="danger" size="mini" class="el-icon-minus" circle @click="delAssertGroup(index)"></el-button>
               </el-col>
             </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="22" :offset="1">
           <el-form-item label="获取参数">
-            <el-row>
-              <el-col :span="23">
-                <param-group v-model="addCaseForm.param" />
+            <el-row v-for="(item, index) in addCaseForm.paramInfos" :key="index" class="assert-group" >
+              <el-col :span="20">
+                <param-group v-model="addCaseForm.paramInfos[index]" />
               </el-col>
-              <el-col :span="1">
-                <el-button type="primary" size="mini" class="el-icon-plus" circle></el-button>
+              <el-col :span="2">
+                <el-button type="primary" size="mini" class="el-icon-plus" circle @click="addParamGroup"></el-button>
+              </el-col>
+              <el-col :span="2">
+                <el-button type="danger" size="mini" class="el-icon-minus" circle @click="delParamGroup(index)"></el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -94,6 +97,7 @@ export default {
     return {
       addCaseForm: {
         assertInfos: [{}],
+        paramInfos: [{}]
       },
       // 测试用例等级下拉选项
       caseLevel: [
@@ -121,11 +125,23 @@ export default {
     },
     // 删除断言组
     delAssertGroup (index) {
-      if (this.addCaseForm.assertInfos.length <= 1) {
+      if (this.addCaseForm.assertInfos.length < 2) {
         this.$message.warning('断言条件不能全部删除哟～')
         return
       }
       this.addCaseForm.assertInfos.splice(index, 1)
+    },
+    // 新增参数组
+    addParamGroup () {
+      this.addCaseForm.paramInfos.push({})
+    },
+    // 删除参数组
+    delParamGroup (index) {
+      if (this.addCaseForm.paramInfos.length < 2) {
+        this.$message.warning('参数信息不能全部删除哟～')
+        return
+      }
+      this.addCaseForm.paramInfos.splice(index, 1)
     }
   }
 }
@@ -150,6 +166,6 @@ export default {
     }
   }
   .assert-group {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 </style>
