@@ -16,7 +16,7 @@
             <template slot-scope="">
               <el-button type="text" size="medium" >查看</el-button>
               <el-button type="text" size="medium" >编辑</el-button>
-              <el-button type="text" size="medium" >删除</el-button>
+              <el-button type="text" size="medium" @click="delSuite" >删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -36,6 +36,23 @@ export default {
       ],
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' }
+    }
+  },
+  methods: {
+    // 删除测试集
+    delSuite () {
+      this.$confirm('此操作将永久删除该测试集, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 这里写删除测试集的逻辑
+        // ---
+        // ---
+        this.$message.success('删除成功！')
+      }).catch(() => {
+        this.$message.info('您已取消删除～')
+      })
     }
   }
 }
