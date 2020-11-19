@@ -28,10 +28,10 @@ export default {
     assertInfo: {
       type: Object,
       default: () => ({})
-    },
+    }
   },
   model: {
-    prop: 'assertInfo',
+    prop: 'assertInfo'
   },
   data () {
     return {
