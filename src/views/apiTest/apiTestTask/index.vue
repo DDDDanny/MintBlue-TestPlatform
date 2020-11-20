@@ -20,7 +20,7 @@
             <template slot-scope="">
               <el-button type="text" size="medium" >查看</el-button>
               <el-button type="text" size="medium" >编辑</el-button>
-              <el-button type="text" size="medium" @click="delSuite" >删除</el-button>
+              <el-button type="text" size="medium" @click="delTestTask" >删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -39,6 +39,23 @@ export default {
         { taskName: 'Api测试任务2', startTime: '2020.11.20 15:00', endTime: '-', caseSuite: '测试集2', version: 'V2.10.0', taskStatus: '进行中', createTime: '2020.11.20 15:00', creator: 'DDDDanny' },
         { taskName: 'Api测试任务3', startTime: '2020.11.20 15:00', endTime: '-', caseSuite: '测试集3', version: 'V2.10.0', taskStatus: '未开始', createTime: '2020.11.20 15:00', creator: 'DDDDanny' }
       ]
+    }
+  },
+  methods: {
+    // 删除测试任务
+    delTestTask () {
+      this.$confirm('此操作将永久删除该测试任务, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 这里写删除测试集的逻辑
+        // ---
+        // ---
+        this.$message.success('删除成功！')
+      }).catch(() => {
+        this.$message.info('您已取消删除～')
+      })
     }
   }
 }
