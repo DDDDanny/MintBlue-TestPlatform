@@ -32,7 +32,7 @@
 <script>
 export default {
   name: 'apiTestTask',
-  data() {
+  data () {
     return {
       caseTaskInfo: [
         { taskName: 'Api测试任务1', startTime: '2020.11.20 15:00', endTime: '2020.11.20 15:30', caseSuite: '测试集1', version: 'V2.10.0', taskStatus: '已完成', createTime: '2020.11.20 15:00', creator: 'DDDDanny' },
@@ -40,7 +40,7 @@ export default {
         { taskName: 'Api测试任务3', startTime: '2020.11.20 15:00', endTime: '-', caseSuite: '测试集3', version: 'V2.10.0', taskStatus: '未开始', createTime: '2020.11.20 15:00', creator: 'DDDDanny' }
       ]
     }
-  },
+  }
 }
 </script>
 
