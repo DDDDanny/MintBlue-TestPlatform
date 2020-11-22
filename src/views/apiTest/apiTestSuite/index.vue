@@ -2,7 +2,7 @@
   <d2-container>
     <el-row justify="end" type="flex" class="button-bar">
       <el-col :span="3" :offset="3">
-        <el-button type="primary">新增测试集</el-button>
+        <el-button type="primary" @click="addTestSuite">新增测试集</el-button>
       </el-col>
     </el-row>
     <el-row justify="center">
@@ -22,6 +22,20 @@
         </el-table>
       </el-col>
     </el-row>
+    <el-dialog title="新增测试集" :visible.sync="dialogDisplay" width="50%" @close="handleCloseDialog">
+      <el-form :model="testSuiteForm" :rules="testSuiteAddRules" ref="testSuiteFormRef" label-width="100px">
+        <el-form-item label="测试集名称" prop="suiteName">
+          <el-input v-model="testSuiteForm.suiteName" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="备注" prop="suiteDesc">
+          <el-input v-model="testSuiteForm.suiteDesc" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogDisplay = false">取 消</el-button>
+        <el-button type="primary" @click="handleSubmitInfo">确 定</el-button>
+      </span>
+    </el-dialog>
   </d2-container>
 </template>
 
@@ -35,7 +49,21 @@ export default {
         { suiteName: 'Api测试集2', remark: '测试集备注信息1', updateTime: '2020.11.13', creator: 'DDDDanny' }
       ],
       // 表格表头数据
-      tableHeaderColor: { background: '#FAFAFA' }
+      tableHeaderColor: { background: '#FAFAFA' },
+      // 是否是编辑信息
+      isEdit: false,
+      // 控制弹框是否显示
+      dialogDisplay: false,
+      // 新增测试集表单
+      testSuiteForm: {
+        suiteName: '',
+        suiteDesc: ''
+      },
+      testSuiteAddRules: {
+        suiteName: [
+          { required: true, message: '请输入测试集名称', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
@@ -53,7 +81,41 @@ export default {
       }).catch(() => {
         this.$message.info('您已取消删除～')
       })
-    }
+    },
+    // 新增测试集
+    addTestSuite () {
+      this.isEdit = false
+      this.dialogDisplay = true
+      // 点击新增测试集时，清空一次表单数据
+      Object.keys(this.testSuiteForm).forEach(key => (this.testSuiteForm[key] = ''))
+    },
+    // 提交新增项目信息
+    handleSubmitInfo () {
+      this.$refs.testSuiteFormRef.validate((valid) => {
+        if (!valid) {
+          this.$message.error('请填写必填项！')
+          return
+        }
+        if (!this.isEdit) {
+          // 这里写新增项目的逻辑
+          // ---
+          // ---
+          this.$message.success('新增测试集成功！')
+        } else {
+          // 这里写编辑项目的逻辑
+          // ---
+          // ---
+          this.$message.success('测试集更新成功！')
+        }
+        // 隐藏弹框
+        this.dialogDisplay = false
+      })
+    },
+    // 处理弹窗关闭事件
+    handleCloseDialog () {
+      // 重置数据
+      this.$refs.testSuiteFormRef.resetFields()
+    },
   }
 }
 </script>

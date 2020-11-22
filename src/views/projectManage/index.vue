@@ -34,7 +34,7 @@
         <el-button @click="projectDialogDisplay = false">取 消</el-button>
         <el-button type="primary" @click="handleSubmitInfo">确 定</el-button>
       </span>
-      </el-dialog>
+    </el-dialog>
   </d2-container>
 </template>
 
