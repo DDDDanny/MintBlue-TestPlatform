@@ -115,7 +115,7 @@ export default {
     handleCloseDialog () {
       // 重置数据
       this.$refs.testSuiteFormRef.resetFields()
-    },
+    }
   }
 }
 </script>

@@ -127,7 +127,7 @@ export default {
     editProjectInfo (proRow) {
       this.isEdit = true
       this.projectDialogDisplay = true
-      console.log(proRow);
+      console.log(proRow)
       this.projectForm.proName = proRow.proName
       this.projectForm.proDesc = proRow.proDesc
       // 获取编辑项目信息逻辑写在这
