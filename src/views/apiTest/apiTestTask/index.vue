@@ -2,7 +2,7 @@
   <d2-container>
     <el-row justify="end" type="flex" class="button-bar">
       <el-col :span="3" :offset="3">
-        <el-button type="primary">新增任务</el-button>
+        <el-button type="primary" @click="addTestTask">新增任务</el-button>
       </el-col>
     </el-row>
     <el-row justify="center">
@@ -26,6 +26,26 @@
         </el-table>
       </el-col>
     </el-row>
+    <el-dialog title="新增测试任务" :visible.sync="dialogDisplay" width="50%" @close="handleCloseDialog">
+      <el-form :model="testTaskForm" :rules="testTaskRules" ref="testTaskFormRef" label-width="100px">
+        <el-form-item label="任务名称" prop="taskName">
+          <el-input v-model="testTaskForm.taskName" autocomplete="off" placeholder="请输入任务名称"></el-input>
+        </el-form-item>
+        <el-form-item label="测试集" prop="testSuite">
+          <el-input v-model="testTaskForm.testSuite" autocomplete="off" placeholder="请选择测试集"></el-input>
+        </el-form-item>
+        <el-form-item label="版本号" prop="version">
+          <el-input v-model="testTaskForm.version" autocomplete="off" placeholder="请选择版本号"></el-input>
+        </el-form-item>
+        <el-form-item label="开始时间" prop="startTime">
+          <el-input v-model="testTaskForm.startTime" autocomplete="off" placeholder="请选择开始时间"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogDisplay = false">取 消</el-button>
+        <el-button type="primary" >确 定</el-button>
+      </span>
+    </el-dialog>
   </d2-container>
 </template>
 
@@ -40,7 +60,27 @@ export default {
         { taskName: 'Api测试任务3', startTime: '2020.11.20 15:00', endTime: '-', caseSuite: '测试集3', version: 'V2.10.0', taskStatus: '未开始', createTime: '2020.11.20 15:00', creator: 'DDDDanny' }
       ],
       // 控制表头颜色
-      tableHeaderColor: { background: '#FAFAFA' }
+      tableHeaderColor: { background: '#FAFAFA' },
+      // 测试任务表单
+      testTaskForm: {},
+      // 是否是编辑信息
+      isEdit: false,
+      // 控制弹框是否显示
+      dialogDisplay: false,
+      testTaskRules: {
+        taskName: [
+          { required: true, message: '请输入任务名称', trigger: 'blur' }
+        ],
+        testSuite: [
+          { required: true, message: '请选择测试集', trigger: 'blur' }
+        ],
+        version: [
+          { required: true, message: '请选择版本号', trigger: 'blur' }
+        ],
+        startTime: [
+          { required: true, message: '请选择任务开始时间', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
@@ -58,7 +98,19 @@ export default {
       }).catch(() => {
         this.$message.info('您已取消删除～')
       })
-    }
+    },
+    // 新增测试任务
+    addTestTask () {
+      this.isEdit = false
+      this.dialogDisplay = true
+      // 点击新增测试集时，清空一次表单数据
+      // Object.keys(this.testTaskForm).forEach(key => (this.testTaskForm[key] = ''))
+    },
+    // 处理弹窗关闭事件
+    handleCloseDialog () {
+      // 重置数据
+      this.$refs.testTaskFormRef.resetFields()
+    },
   }
 }
 </script>
