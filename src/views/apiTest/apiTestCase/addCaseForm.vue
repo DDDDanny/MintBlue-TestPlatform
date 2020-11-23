@@ -1,16 +1,16 @@
 <template>
   <temp-page :drawer-visible="drawerVisible" @handleClose="handleClose">
-    <el-form ref="addCaseFormRef" :model="addCaseForm" label-width="80px" class="row">
+    <el-form ref="addCaseFormRef" :rules="rules" :model="addCaseForm" label-width="80px" class="row">
       <el-row>
-        <el-col :span="22" :offset="1" >
-          <el-form-item label="用例名称">
+        <el-col :span="22" :offset="1">
+          <el-form-item label="用例名称" prop="name">
             <el-input v-model="addCaseForm.caseName" placeholder="请输入用例名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10" :offset="1">
           <el-form-item label="用例等级">
             <el-select v-model="addCaseForm.caseLevel" placeholder="请选择等级" clearable>
-              <el-option v-for="item in caseLevel" :key="item.value" :label="item.label" :value="item.value" />
+              <el-option v-for="item in caseLevel" :key="item.value" :label="item.label" :value="item.value"/>
             </el-select>
           </el-form-item>
         </el-col>
@@ -36,32 +36,62 @@
             <el-input type="textarea" :rows="5" v-model="addCaseForm.requestBody" placeholder="请输入请求内容"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="22" :offset="1">
-          <el-form-item label="断言条件">
-            <el-row v-for="(item, index) in addCaseForm.assertInfos" :key="index" class="assert-group">
-              <el-col :span="20">
-                <assert-group v-model="addCaseForm.assertInfos[index]" />
-              </el-col>
-              <el-col :span="2">
-                <el-button type="primary" size="mini" class="el-icon-plus" circle @click="addAssertGroup"></el-button>
-              </el-col>
-              <el-col :span="2">
-                <el-button type="danger" size="mini" class="el-icon-minus" circle @click="delAssertGroup(index)"></el-button>
-              </el-col>
-            </el-row>
-          </el-form-item>
+        <!---->
+        <el-col :span="22" :offset="1" class="assert-group">
+          <div class="assert-item">
+            <el-form-item
+              label="断言条件"
+              v-for="(item,index) in addCaseForm.assertKey"
+              :prop="'assertKey.' + index + '.value'"
+              :key="'assertKey' + index"
+              :rules="{
+      required: true, message: '域名不能为空', trigger: 'blur'
+    }"
+            >
+              <el-input v-model="item.value" placeholder="输入断言Key"></el-input>
+            </el-form-item>
+          </div>
+
+          <div class="assert-item">
+            <el-form-item
+              v-for="(item,index) in addCaseForm.assertCondition"
+              :rules="{
+      required: true, message: '域名不能为空2', trigger: 'blur'
+    }"
+              :prop="'assertCondition.' + index + '.value'"
+              :key="'assertCondition' + index">
+              <el-select v-model="item.value" placeholder="请选择条件">
+                <el-option v-for="item in assertConditions" :key="item.value" :label="item.label" :value="item.value"/>
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <div class="assert-item">
+            <el-form-item
+              v-for="(item,index) in addCaseForm.assertValue"
+              :rules="{
+      required: true, message: '域名不能为空3', trigger: 'blur'
+    }"
+              :prop="'assertValue.' + index + '.value'"
+              :key="'assertValue' + index">
+              <el-input v-model="item.value" placeholder="输入断言Val"></el-input>
+              <el-button type="primary" size="mini" class="el-icon-plus" circle @click="addAssertGroup "></el-button>
+              <el-button type="danger" size="mini" class="el-icon-minus" circle @click="delAssertGroup(index)"></el-button>
+            </el-form-item>
+          </div>
         </el-col>
+        <!---->
         <el-col :span="22" :offset="1">
           <el-form-item label="获取参数">
-            <el-row v-for="(item, index) in addCaseForm.paramInfos" :key="index" class="assert-group" >
+            <el-row v-for="(item, index) in addCaseForm.paramInfos" :key="index" class="assert-group">
               <el-col :span="20">
-                <param-group v-model="addCaseForm.paramInfos[index]" />
+                <param-group v-model="addCaseForm.paramInfos[index]"/>
               </el-col>
               <el-col :span="2">
                 <el-button type="primary" size="mini" class="el-icon-plus" circle @click="addParamGroup"></el-button>
               </el-col>
               <el-col :span="2">
-                <el-button type="danger" size="mini" class="el-icon-minus" circle @click="delParamGroup(index)"></el-button>
+                <el-button type="danger" size="mini" class="el-icon-minus" circle @click="delParamGroup (index)"></el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -80,56 +110,129 @@
   </temp-page>
 </template>
 <script>
-import tempPage from '@/components/tempPage'
-import assertGroup from '@/views/apiTest/apiTestCase/components/assertGroup'
-import paramGroup from '@/views/apiTest/apiTestCase/components/paramGroup'
+  import tempPage from '@/components/tempPage'
+  import paramGroup from '@/views/apiTest/apiTestCase/components/paramGroup'
 
-export default {
-  name: 'addCaseForm',
-  components: { tempPage, assertGroup, paramGroup },
-  props: {
-    drawerVisible: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data () {
-    return {
-      addCaseForm: {
-        assertInfos: [{}],
-        paramInfos: [{}]
+  export default {
+    name: 'addCaseForm',
+    components: {
+      tempPage,
+      paramGroup,
+    },
+    props: {
+      drawerVisible: {
+        type: Boolean,
+        default: false,
       },
-      // 测试用例等级下拉选项
-      caseLevel: [
-        { value: 1, label: '低' },
-        { value: 2, label: '中' },
-        { value: 3, label: '高' }
-      ],
-      // 请求方式下拉选项
-      requestMethod: [
-        { value: 'post', label: 'POST' }, { value: 'get', label: 'GET' }
-      ],
-      xxx: {}
-    }
-  },
-  methods: {
-    handleClose () {
-      this.$emit('handleClose')
     },
-    handleSubmit () {
-      this.$emit('handleSubmit', this.addCaseForm)
+    data () {
+      return {
+        addCaseForm: {
+          paramInfos: [{}],
+          assertKey: [{ value: '' }],
+          assertCondition: [{ value: '' }],
+          assertValue: [{ value: '' }],
+        },
+        // 测试用例等级下拉选项
+        caseLevel: [
+          {
+            value: 1,
+            label: '低',
+          },
+          {
+            value: 2,
+            label: '中',
+          },
+          {
+            value: 3,
+            label: '高',
+          },
+        ],
+        assertConditions: [
+          {
+            value: '==',
+            label: '等于',
+          },
+          {
+            value: '!=',
+            label: '不等于',
+          },
+          {
+            value: 'In',
+            label: '包含',
+          },
+          {
+            value: 'notIn',
+            label: '不包含',
+          },
+        ],
+        // 请求方式下拉选项
+        requestMethod: [
+          {
+            value: 'post',
+            label: 'POST',
+          }, {
+            value: 'get',
+            label: 'GET',
+          },
+        ],
+        xxx: {},
+        rules: {
+          name: [
+            {
+              required: true,
+              message: '请输入活动名称',
+              trigger: 'blur',
+            },
+            {
+              min: 3,
+              max: 5,
+              message: '长度在 3 到 5 个字符',
+              trigger: 'blur',
+            },
+          ],
+          assertKey: [{
+            required: true,
+            message: '请输入活动1',
+            trigger: 'blur',
+          }],
+          assertCondition: [{
+            required: true,
+            message: '请输入活动2',
+            trigger: 'blur',
+          }],
+          assertValue: [{
+            required: true,
+            message: '请输入活动3',
+            trigger: 'blur',
+          }],
+        },
+      }
     },
+    methods: {
+      handleClose () {
+        this.$emit('handleClose')
+      },
+      handleSubmit () {
+        this.$refs.addCaseFormRef.validate().then(() => {
+          this.$emit('handleSubmit', this.addCaseForm)
+        })
+      },
     // 新增断言组
     addAssertGroup () {
-      this.addCaseForm.assertInfos.push({})
+      this.addCaseForm.assertKey.push({ value: '' })
+      this.addCaseForm.assertCondition.push({ value: '' })
+      this.addCaseForm.assertValue.push({ value: '' })
     },
     // 删除断言组
     delAssertGroup (index) {
-      if (this.addCaseForm.assertInfos.length < 2) {
+      if (this.addCaseForm.assertKey.length < 2) {
         this.$message.warning('断言条件不能全部删除哟～')
         return
       }
-      this.addCaseForm.assertInfos.splice(index, 1)
+      this.addCaseForm.assertKey.splice(index, 1)
+      this.addCaseForm.assertCondition.splice(index, 1)
+      this.addCaseForm.assertValue.splice(index, 1)
     },
     // 新增参数组
     addParamGroup () {
@@ -166,6 +269,13 @@ export default {
     }
   }
   .assert-group {
-    margin-bottom: 20px;
+    display: flex;
+
+    ::v-deep .assert-item:not(:first-child) {
+      .el-form-item__content {
+        margin-left: 10px !important;
+        display: flex;
+      }
+    }
   }
 </style>
