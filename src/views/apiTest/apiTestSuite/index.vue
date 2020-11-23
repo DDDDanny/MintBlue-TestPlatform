@@ -9,20 +9,20 @@
       <el-col :span="24">
         <el-table :data="caseSuiteInfo" :header-cell-style="tableHeaderColor" border>
           <el-table-column label="用例集名称" prop="suiteName"></el-table-column>
-          <el-table-column label="备注" min-width="100" prop="remark"></el-table-column>
+          <el-table-column label="备注" min-width="100" prop="suiteDesc"></el-table-column>
           <el-table-column label="更新时间" width="150" prop="updateTime"></el-table-column>
           <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
           <el-table-column label="操作" width="150" fixed="right">
-            <template slot-scope="">
-              <el-button type="text" size="medium" >查看</el-button>
-              <el-button type="text" size="medium" >编辑</el-button>
+            <template slot-scope="scope">
+              <el-button type="text" size="medium" >详情</el-button>
+              <el-button type="text" size="medium" @click="editSuite(scope.row)">编辑</el-button>
               <el-button type="text" size="medium" @click="delSuite" >删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog title="新增测试集" :visible.sync="dialogDisplay" width="50%" @close="handleCloseDialog">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogDisplay" width="50%" @close="handleCloseDialog">
       <el-form :model="testSuiteForm" :rules="testSuiteAddRules" ref="testSuiteFormRef" label-width="100px">
         <el-form-item label="测试集名称" prop="suiteName">
           <el-input v-model="testSuiteForm.suiteName" autocomplete="off"></el-input>
@@ -45,8 +45,8 @@ export default {
   data () {
     return {
       caseSuiteInfo: [
-        { suiteName: 'Api测试集1', remark: '测试集备注信息1', updateTime: '2020.11.12', creator: 'DDDDanny' },
-        { suiteName: 'Api测试集2', remark: '测试集备注信息1', updateTime: '2020.11.13', creator: 'DDDDanny' }
+        { suiteName: 'Api测试集1', suiteDesc: '测试集备注信息1', updateTime: '2020.11.12', creator: 'DDDDanny' },
+        { suiteName: 'Api测试集2', suiteDesc: '测试集备注信息1', updateTime: '2020.11.13', creator: 'DDDDanny' }
       ],
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
@@ -59,11 +59,19 @@ export default {
         suiteName: '',
         suiteDesc: ''
       },
+      // 测试集合规则
       testSuiteAddRules: {
         suiteName: [
           { required: true, message: '请输入测试集名称', trigger: 'blur' }
         ]
       }
+    }
+  },
+  computed: {
+    // 获取 Dialog Title
+    dialogTitle: function () {
+      if (this.isEdit) return '编辑测试集'
+      return '新增测试集'
     }
   },
   methods: {
@@ -115,6 +123,17 @@ export default {
     handleCloseDialog () {
       // 重置数据
       this.$refs.testSuiteFormRef.resetFields()
+    },
+    // 编辑测试集
+    editSuite (proRow) {
+      this.isEdit = true
+      this.dialogDisplay = true
+      // console.log(proRow)
+      this.testSuiteForm.suiteName = proRow.suiteName
+      this.testSuiteForm.suiteDesc = proRow.suiteDesc
+      // 获取编辑项目信息逻辑写在这
+      // ---
+      // ---
     }
   }
 }
