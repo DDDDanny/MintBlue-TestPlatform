@@ -40,7 +40,7 @@ export default {
         { taskName: 'Api测试任务3', startTime: '2020.11.20 15:00', endTime: '-', caseSuite: '测试集3', version: 'V2.10.0', taskStatus: '未开始', createTime: '2020.11.20 15:00', creator: 'DDDDanny' }
       ],
       // 控制表头颜色
-      tableHeaderColor: { background: '#FAFAFA' },
+      tableHeaderColor: { background: '#FAFAFA' }
     }
   },
   methods: {
