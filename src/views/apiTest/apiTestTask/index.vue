@@ -110,7 +110,7 @@ export default {
     handleCloseDialog () {
       // 重置数据
       this.$refs.testTaskFormRef.resetFields()
-    },
+    }
   }
 }
 </script>
