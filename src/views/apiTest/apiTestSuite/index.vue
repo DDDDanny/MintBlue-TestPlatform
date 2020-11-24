@@ -14,9 +14,9 @@
           <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
           <el-table-column label="操作" width="150" fixed="right">
             <template slot-scope="scope">
-              <el-button type="text" size="medium" >详情</el-button>
-              <el-button type="text" size="medium" @click="editSuite(scope.row)">编辑</el-button>
-              <el-button type="text" size="medium" @click="delSuite" >删除</el-button>
+              <el-button type="success" icon="el-icon-view" size="medium" circle/>
+              <el-button type="primary" icon="el-icon-edit" size="medium" circle @click="editSuite(scope.row)"/>
+              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delSuite"/>
             </template>
           </el-table-column>
         </el-table>
