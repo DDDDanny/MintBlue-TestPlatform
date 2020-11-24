@@ -12,10 +12,10 @@
           <el-table-column label="项目描述" prop="proDesc"></el-table-column>
           <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
           <el-table-column label="创建人" width="150" prop="creater"></el-table-column>
-          <el-table-column label="操作" width="100" fixed="right">
+          <el-table-column label="操作" width="120" fixed="right">
             <template slot-scope="scope">
-              <el-button type="text" size="medium" @click="editProjectInfo(scope.row)">编辑</el-button>
-              <el-button type="text" size="medium" @click="delProject">删除</el-button>
+              <el-button type="primary" icon="el-icon-edit" size="medium" circle @click="editProjectInfo(scope.row)"></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delProject"></el-button>
             </template>
           </el-table-column>
         </el-table>

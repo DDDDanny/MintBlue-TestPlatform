@@ -14,8 +14,8 @@
           <el-table-column label="测试集" width="100" prop="caseSuite"></el-table-column>
           <el-table-column label="版本号" width="100" prop="version"></el-table-column>
           <el-table-column label="任务状态" width="100" prop="taskStatus"></el-table-column>
-          <el-table-column label="创建时间" prop="createTime"></el-table-column>
-          <el-table-column label="创建人" prop="creator"></el-table-column>
+          <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
+          <el-table-column label="创建人" min-width="100" prop="creator"></el-table-column>
           <el-table-column label="操作" width="250" fixed="right">
             <template slot-scope="">
               <el-button type="success" icon="el-icon-view" size="medium" circle></el-button>
@@ -28,7 +28,7 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog title="新增测试任务" :visible.sync="dialogDisplay" width="30%" @close="handleCloseDialog">
+    <el-dialog title="新增测试任务" :visible.sync="dialogDisplay" width="50%" @close="handleCloseDialog">
       <el-form :model="testTaskForm" :rules="testTaskRules" ref="testTaskFormRef" label-width="80px">
         <el-form-item label="任务名称" prop="taskName">
           <el-input v-model="testTaskForm.taskName" autocomplete="off" placeholder="请输入任务名称"></el-input>
@@ -155,6 +155,6 @@ export default {
     margin-bottom: 25px;
   }
   .selector-base {
-    width: 456px;
+    width: 100%
   }
 </style>
