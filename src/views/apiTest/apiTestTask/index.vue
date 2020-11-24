@@ -14,13 +14,15 @@
           <el-table-column label="测试集" width="100" prop="caseSuite"></el-table-column>
           <el-table-column label="版本号" width="100" prop="version"></el-table-column>
           <el-table-column label="任务状态" width="100" prop="taskStatus"></el-table-column>
-          <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
-          <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
-          <el-table-column label="操作" width="150" fixed="right">
+          <el-table-column label="创建时间" prop="createTime"></el-table-column>
+          <el-table-column label="创建人" prop="creator"></el-table-column>
+          <el-table-column label="操作" width="250" fixed="right">
             <template slot-scope="">
-              <el-button type="text" size="medium" >查看</el-button>
-              <el-button type="text" size="medium" >编辑</el-button>
-              <el-button type="text" size="medium" @click="delTestTask" >删除</el-button>
+              <el-button type="success" icon="el-icon-view" size="medium" circle></el-button>
+              <el-button type="primary" icon="el-icon-edit" size="medium" circle></el-button>
+              <el-button type="info" icon="el-icon-switch-button" size="medium" circle></el-button>
+              <el-button type="warning" icon="el-icon-caret-right" size="medium" circle></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delTestTask"></el-button>
             </template>
           </el-table-column>
         </el-table>
