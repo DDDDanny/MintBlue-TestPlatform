@@ -2,7 +2,7 @@
   <d2-container>
     <el-row justify="end" type="flex" class="button-bar">
       <el-col :span="3" :offset="3">
-        <el-button type="primary" @click="addTestTask">新增任务</el-button>
+        <el-button type="primary" @click="addTestTask">新增测试任务</el-button>
       </el-col>
     </el-row>
     <el-row justify="center">
@@ -26,24 +26,28 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog title="新增测试任务" :visible.sync="dialogDisplay" width="50%" @close="handleCloseDialog">
-      <el-form :model="testTaskForm" :rules="testTaskRules" ref="testTaskFormRef" label-width="100px">
+    <el-dialog title="新增测试任务" :visible.sync="dialogDisplay" width="30%" @close="handleCloseDialog">
+      <el-form :model="testTaskForm" :rules="testTaskRules" ref="testTaskFormRef" label-width="80px">
         <el-form-item label="任务名称" prop="taskName">
           <el-input v-model="testTaskForm.taskName" autocomplete="off" placeholder="请输入任务名称"></el-input>
         </el-form-item>
         <el-form-item label="测试集" prop="testSuite">
-          <el-input v-model="testTaskForm.testSuite" autocomplete="off" placeholder="请选择测试集"></el-input>
+          <el-select v-model="testTaskForm.testSuite" placeholder="请选择测试集" class="selector-base">
+            <el-option v-for="(item, index) in testSuites" :key="index" :label="item.label" :value="item.value"/>
+          </el-select>
         </el-form-item>
         <el-form-item label="版本号" prop="version">
-          <el-input v-model="testTaskForm.version" autocomplete="off" placeholder="请选择版本号"></el-input>
+          <el-select v-model="testTaskForm.version" placeholder="请选择版本号" class="selector-base">
+            <el-option v-for="(item, index) in versions" :key="index" :label="item.label" :value="item.value"/>
+          </el-select>
         </el-form-item>
         <el-form-item label="开始时间" prop="startTime">
-          <el-input v-model="testTaskForm.startTime" autocomplete="off" placeholder="请选择开始时间"></el-input>
+          <el-date-picker v-model="testTaskForm.startTime" type="datetime" placeholder="选择任务开始时间" default-time="12:00:00" class="selector-base"/>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogDisplay = false">取 消</el-button>
-        <el-button type="primary" >确 定</el-button>
+        <el-button type="primary" @click="handleSubmit">确 定</el-button>
       </span>
     </el-dialog>
   </d2-container>
@@ -67,20 +71,31 @@ export default {
       isEdit: false,
       // 控制弹框是否显示
       dialogDisplay: false,
+      // Form验证项
       testTaskRules: {
         taskName: [
           { required: true, message: '请输入任务名称', trigger: 'blur' }
         ],
         testSuite: [
-          { required: true, message: '请选择测试集', trigger: 'blur' }
+          { required: true, message: '请选择测试集', trigger: 'change' }
         ],
         version: [
-          { required: true, message: '请选择版本号', trigger: 'blur' }
+          { required: true, message: '请选择版本号', trigger: 'change' }
         ],
         startTime: [
           { required: true, message: '请选择任务开始时间', trigger: 'blur' }
         ]
-      }
+      },
+      // 测试集合
+      testSuites: [
+        { value: 'test-case-001', label: '测试集1' },
+        { value: 'test-case-002', label: '测试集2' }
+      ],
+      // 版本号集合
+      versions: [
+        { value: 'version0001', label: 'V2.10.0' },
+        { value: 'version0002', label: 'V2.12.0' }
+      ]
     }
   },
   methods: {
@@ -105,11 +120,29 @@ export default {
       this.dialogDisplay = true
       // 点击新增测试集时，清空一次表单数据
       // Object.keys(this.testTaskForm).forEach(key => (this.testTaskForm[key] = ''))
+      // 这里拉取下拉菜单数据
+      //
+      //
     },
     // 处理弹窗关闭事件
     handleCloseDialog () {
       // 重置数据
       this.$refs.testTaskFormRef.resetFields()
+    },
+    // 处理提交逻辑
+    handleSubmit () {
+      this.$refs.testTaskFormRef.validate((valid) => {
+        if (!valid) {
+          this.$message.error('请填写所有必填项')
+          return
+        }
+        // 数据提交后的逻辑写在这里
+        //
+        //
+        // console.log(this.testTaskForm)
+        this.dialogDisplay = false
+        this.$message.success('新增测试任务成功！')
+      })
     }
   }
 }
@@ -118,5 +151,8 @@ export default {
 <style lang="scss" scoped>
   .button-bar {
     margin-bottom: 25px;
+  }
+  .selector-base {
+    width: 456px;
   }
 </style>
