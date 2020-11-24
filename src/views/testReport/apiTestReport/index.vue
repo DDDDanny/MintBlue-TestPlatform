@@ -2,8 +2,8 @@
   <d2-container>
     <el-row justify="end" type="flex" class="button-bar">
       <el-col :span="6" :gutter="12">
-        <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getCaseList">
-            <el-button slot="append" icon="el-icon-search" @click="getCaseList"></el-button>
+        <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getReportList">
+            <el-button slot="append" icon="el-icon-search" @click="getReportList"></el-button>
         </el-input>
       </el-col>
     </el-row>
@@ -32,6 +32,16 @@
         </el-table>
       </el-col>
     </el-row>
+    <div class="pagination-box">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"/>
+    </div>
   </d2-container>
 </template>
 
@@ -40,21 +50,42 @@ export default {
   name: 'apiTestReport',
   data () {
     return {
+      // 查询条件
       queryInfo: {
-        query: ''
+        query: '',
+        pagenum: 1,
+        pagesize: 1
       },
+      // 数据总数
+      total: 0,
+      // 测试报告列表数据
       apiReports: [
         { reportName: 'Api测试报告1', version: 'V2.10.0', successNum: '12', failNum: '5', createTime: '2020-12-01 18:00' },
         { reportName: 'Api测试报告2', version: 'V2.11.0', successNum: '50', failNum: '6', createTime: '2020-12-01 20:30' },
         { reportName: 'Api测试报告3', version: 'V2.12.0', successNum: '35', failNum: '8', createTime: '2020-12-01 23:50' }
       ],
+      // 控制表头颜色
       tableHeaderColor: { background: '#FAFAFA' }
     }
   },
+  created () {
+    this.getReportList()
+  },
   methods: {
-    getCaseList () {
-      console.log(123)
-    }
+    // 获取报告列表数据
+    getReportList () {
+      this.total = this.apiReports.length
+    },
+    // pageSize 改变时会触发
+    handleSizeChange (newSize) {
+      this.queryInfo.pagesize = newSize
+      this.getReportList()
+    },
+    // currentPage 改变时会触发
+    handleCurrentChange (newPage) {
+      this.queryInfo.pagenum = newPage
+      this.getReportList()
+    },
   }
 }
 </script>
@@ -62,5 +93,8 @@ export default {
 <style lang="scss" scoped>
   .button-bar {
     margin-bottom: 25px;
+  }
+  .pagination-box {
+    margin-top: 25px;
   }
 </style>
