@@ -19,13 +19,13 @@
           <el-table-column label="请求方式" width="100" prop="requestMethod"></el-table-column>
           <el-table-column label="请求URL" width="200" prop="requestUrl"></el-table-column>
           <el-table-column label="备注" width="200" prop="remark"></el-table-column>
-          <el-table-column label="更新时间" width="100" prop="updateTime"></el-table-column>
-          <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
+          <el-table-column label="更新时间" min-width="100" prop="updateTime"></el-table-column>
+          <el-table-column label="创建人" min-width="100" prop="creator"></el-table-column>
           <el-table-column label="操作" width="150" fixed='right'>
             <template slot-scope="">
-              <el-button type="text" size="medium">查看</el-button>
-              <el-button type="text" size="medium">编辑</el-button>
-              <el-button type="text" size="medium" @click="delApiCase">删除</el-button>
+              <el-button type="success" icon="el-icon-view" size="medium" circle/>
+              <el-button type="primary" icon="el-icon-edit" size="medium" circle/>
+              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delApiCase"/>
             </template>
           </el-table-column>
         </el-table>
