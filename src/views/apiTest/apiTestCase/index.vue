@@ -1,10 +1,14 @@
 <template>
   <d2-container>
-    <el-row justify="end" type="flex" class="button-bar">
-      <el-col :span="3" :offset="3">
+    <el-row type="flex" class="button-bar">
+      <el-col :span="8" class="switch-project">
+        <span>当前项目：校精灵</span>
+        <el-button type="primary" icon="el-icon-refresh" circle size="mini" style="margin-left: 15px" @click="proDialogDisplay = true"/>
+      </el-col>
+      <el-col :span="4" :offset="8">
         <el-button type="primary" @click="goAddCase">新增测试用例</el-button>
       </el-col>
-      <el-col :span="6" :gutter="12">
+      <el-col :span="8">
         <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getCaseList">
             <el-button slot="append" icon="el-icon-search" @click="getCaseList"></el-button>
         </el-input>
@@ -42,6 +46,19 @@
         :total="total"/>
     </div>
     <add-case-form :drawerVisible="tempPageVisible" @handleClose="handleClose" @handleSubmit="handleSubmit" />
+    <el-dialog title="项目信息" :visible.sync="proDialogDisplay" width="20%">
+      <el-form :model="proInfo" label-width="50px">
+        <el-form-item label="项目">
+          <el-select v-model="proInfo.proID" placeholder="请选择项目" style="width: 100%">
+              <el-option v-for="item in projects" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="proDialogDisplay = false">取 消</el-button>
+        <el-button type="primary" @click="proDialogDisplay = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </d2-container>
 </template>
 
@@ -58,6 +75,13 @@ export default {
         { caseName: '用户登录失败（用户名错误）', caseLevel: '高', requestMethod: 'POST', requestUrl: '/login', remark: '用户名错误，登录失败', updateTime: '2020-11-16', creator: 'DDDDanny' },
         { caseName: '用户登录失败（密码错误）', caseLevel: '高', requestMethod: 'POST', requestUrl: '/login', remark: '密码错误，登录失败', updateTime: '2020-11-16', creator: 'DDDDanny' }
       ],
+      // 项目集合
+      projects: [
+        { label: '校精灵', value: '001' },
+        { label: '选课精灵', value: '002' },
+        { label: '好生源', value: '003' }
+      ],
+      proInfo: {},
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
       // 数据总数
@@ -69,7 +93,9 @@ export default {
         pagesize: 1
       },
       // TempPage 开关
-      tempPageVisible: false
+      tempPageVisible: false,
+      // 控制项目选择弹框显示
+      proDialogDisplay: false
     }
   },
   created () {
@@ -130,5 +156,10 @@ export default {
  }
  .pagination-box {
    margin-top: 25px;
+ }
+ .switch-project {
+  display:flex;
+  // justify-content:center;/*主轴上居中*/
+  align-items:center;/*侧轴上居中*/
  }
 </style>
