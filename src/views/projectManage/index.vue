@@ -24,10 +24,10 @@
     <el-dialog :title="dialogTitle" :visible.sync="projectDialogDisplay" width="50%" @close="handleCloseDialog">
       <el-form :model="projectForm" :rules="projectAddRules" ref="projectAddRuleForm" label-width="80px">
         <el-form-item label="项目名称" prop="proName">
-          <el-input v-model="projectForm.proName" autocomplete="off"></el-input>
+          <el-input v-model="projectForm.proName" autocomplete="off" placeholder="请输入项目名称" clearable></el-input>
         </el-form-item>
         <el-form-item label="项目描述" prop="proDesc">
-          <el-input v-model="projectForm.proDesc" autocomplete="off"></el-input>
+          <el-input v-model="projectForm.proDesc" autocomplete="off" placeholder="请输入项目描述" clearable></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
