@@ -85,7 +85,7 @@ export default {
     handleCurrentChange (newPage) {
       this.queryInfo.pagenum = newPage
       this.getReportList()
-    },
+    }
   }
 }
 </script>
