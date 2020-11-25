@@ -24,10 +24,10 @@
     <el-dialog :title="dialogTitle" :visible.sync="versionDialogDisplay" width="50%" @close="handleCloseDialog">
       <el-form :model="versionInfoForm" :rules="versionInfoRules" ref="versionRuleForm" label-width="80px">
         <el-form-item label="版本号" prop="version">
-          <el-input v-model="versionInfoForm.version" autocomplete="off"></el-input>
+          <el-input v-model="versionInfoForm.version" autocomplete="off" placeholder="请输入版本号" clearable></el-input>
         </el-form-item>
         <el-form-item label="版本信息" prop="verDesc">
-          <el-input v-model="versionInfoForm.verDesc" autocomplete="off"></el-input>
+          <el-input v-model="versionInfoForm.verDesc" autocomplete="off" placeholder="请输入版本信息" clearable></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">

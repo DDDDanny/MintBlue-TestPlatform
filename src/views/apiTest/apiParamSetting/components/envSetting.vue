@@ -24,10 +24,10 @@
     <el-dialog :title="dialogTitle" :visible.sync="envDialogDisplay" width="50%" @close="handleCloseDialog">
       <el-form :model="envInfoForm" :rules="envInfoRules" ref="envRuleForm" label-width="80px">
         <el-form-item label="环境名称" prop="envName">
-          <el-input v-model="envInfoForm.envName" autocomplete="off"></el-input>
+          <el-input v-model="envInfoForm.envName" autocomplete="off" placeholder="请输入环境名称" clearable></el-input>
         </el-form-item>
         <el-form-item label="基础地址" prop="baseURL">
-          <el-input v-model="envInfoForm.baseURL" autocomplete="off"></el-input>
+          <el-input v-model="envInfoForm.baseURL" autocomplete="off" placeholder="请输入基础地址" clearable></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
