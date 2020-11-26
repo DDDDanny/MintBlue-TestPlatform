@@ -22,13 +22,16 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogDisplay" width="50%" @close="handleCloseDialog">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogDisplay" width="55%" @close="handleCloseDialog">
       <el-form :model="testSuiteForm" :rules="testSuiteAddRules" ref="testSuiteFormRef" label-width="100px">
         <el-form-item label="测试集名称" prop="suiteName">
           <el-input v-model="testSuiteForm.suiteName" autocomplete="off" placeholder="请输入测试集名称" clearable></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="suiteDesc">
           <el-input v-model="testSuiteForm.suiteDesc" autocomplete="off" placeholder="请输入备注" clearable></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-transfer v-model="selectData" :data="waitData" :titles="transferTitles"></el-transfer>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -48,6 +51,16 @@ export default {
         { suiteName: 'Api测试集1', suiteDesc: '测试集备注信息1', updateTime: '2020.11.12', creator: 'DDDDanny' },
         { suiteName: 'Api测试集2', suiteDesc: '测试集备注信息1', updateTime: '2020.11.13', creator: 'DDDDanny' }
       ],
+      // 穿梭框标题
+      transferTitles: ["待选用例", "已选用例"],
+      // 待选数据
+      waitData: [
+        {key: '001', label: '测试用例1'},
+        {key: '002', label: '测试用例2'},
+        {key: '003', label: '测试用例3'},
+      ],
+      // 已选择的数据
+      selectData: [],
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
       // 是否是编辑信息
@@ -108,6 +121,7 @@ export default {
           // 这里写新增项目的逻辑
           // ---
           // ---
+          console.log(this.selectData);
           this.$message.success('新增测试集成功！')
         } else {
           // 这里写编辑项目的逻辑
