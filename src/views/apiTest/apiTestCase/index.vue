@@ -46,7 +46,7 @@
         :total="total"/>
     </div>
     <add-case-form :drawerVisible="tempPageVisible" @handleClose="handleClose" @handleSubmit="handleSubmit" />
-    <el-dialog title="项目信息" :visible.sync="proDialogDisplay" width="20%">
+    <el-dialog title="切换项目" :visible.sync="proDialogDisplay" width="20%">
       <el-form :model="proInfo" label-width="50px">
         <el-form-item label="项目">
           <el-select v-model="proInfo.proId" placeholder="请选择项目" style="width: 100%">
