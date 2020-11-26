@@ -2,8 +2,8 @@
   <d2-container>
     <el-row type="flex" class="button-bar">
       <el-col :span="8" class="switch-project">
-        <span>当前项目：校精灵</span>
-        <el-button type="primary" icon="el-icon-refresh" circle size="mini" style="margin-left: 15px" @click="proDialogDisplay = true"/>
+        <span>当前项目：{{ currentPro }}</span>
+        <el-button type="primary" icon="el-icon-refresh" circle size="mini" style="margin-left: 15px" @click="openSwitchProDialog"/>
       </el-col>
       <el-col :span="4" :offset="8">
         <el-button type="primary" @click="goAddCase">新增测试用例</el-button>
@@ -49,14 +49,14 @@
     <el-dialog title="项目信息" :visible.sync="proDialogDisplay" width="20%">
       <el-form :model="proInfo" label-width="50px">
         <el-form-item label="项目">
-          <el-select v-model="proInfo.proID" placeholder="请选择项目" style="width: 100%">
+          <el-select v-model="proInfo.proId" placeholder="请选择项目" style="width: 100%">
               <el-option v-for="item in projects" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="proDialogDisplay = false">取 消</el-button>
-        <el-button type="primary" @click="proDialogDisplay = false">确 定</el-button>
+        <el-button type="primary" @click="handleSwitchPro">确 定</el-button>
       </span>
     </el-dialog>
   </d2-container>
@@ -81,7 +81,9 @@ export default {
         { label: '选课精灵', value: '002' },
         { label: '好生源', value: '003' }
       ],
-      proInfo: {},
+      proInfo: {
+        proId: ''
+      },
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
       // 数据总数
@@ -95,13 +97,24 @@ export default {
       // TempPage 开关
       tempPageVisible: false,
       // 控制项目选择弹框显示
-      proDialogDisplay: false
+      proDialogDisplay: false,
+      // 当前项目名称
+      currentPro: ''
     }
   },
   created () {
+    this.getCurrentProName()
     this.getCaseList()
   },
   methods: {
+    // 获取当前项目名称
+    getCurrentProName () {
+      // 这里写获取项目信息的逻辑
+      //
+      //
+      // 获取当前项目的项目名称(暂时这么取)
+      this.currentPro = this.$store.state.seletedProject
+    },
     // 获取用例列表信息
     getCaseList () {
       // 获取测试用例列表信息逻辑写在这
@@ -145,6 +158,22 @@ export default {
     // 提交测试用例
     handleSubmit (val) {
       console.log(val)
+    },
+    // 打开切换项目弹框
+    openSwitchProDialog () {
+      // 初始化项目下拉菜单默认选项
+      this.proInfo.proId = this.$store.state.seletedProject
+      // 显示弹框
+      this.proDialogDisplay = true
+    },
+    // 处理切换项目
+    handleSwitchPro () {
+      // 拿到被选中的项目ID
+      this.$store.state.seletedProject = this.proInfo.proId
+      // 隐藏弹框
+      this.proDialogDisplay = false
+      // 调用获取当前选中的项目名称
+      this.getCurrentProName()
     }
   }
 }
