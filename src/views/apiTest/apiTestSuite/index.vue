@@ -52,12 +52,12 @@ export default {
         { suiteName: 'Api测试集2', suiteDesc: '测试集备注信息1', updateTime: '2020.11.13', creator: 'DDDDanny' }
       ],
       // 穿梭框标题
-      transferTitles: ["待选用例", "已选用例"],
+      transferTitles: ['待选用例', '已选用例'],
       // 待选数据
       waitData: [
-        {key: '001', label: '测试用例1'},
-        {key: '002', label: '测试用例2'},
-        {key: '003', label: '测试用例3'},
+        { key: '001', label: '测试用例1' },
+        { key: '002', label: '测试用例2' },
+        { key: '003', label: '测试用例3' }
       ],
       // 已选择的数据
       selectData: [],
@@ -121,7 +121,7 @@ export default {
           // 这里写新增项目的逻辑
           // ---
           // ---
-          console.log(this.selectData);
+          // console.log(this.selectData)
           this.$message.success('新增测试集成功！')
         } else {
           // 这里写编辑项目的逻辑

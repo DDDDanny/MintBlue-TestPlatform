@@ -50,8 +50,8 @@
       <el-form :model="proInfo" label-width="50px">
         <el-form-item label="项目">
           <el-select v-model="proInfo.proId" placeholder="请选择项目" style="width: 100%">
-              <el-option v-for="item in projects" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
+            <el-option v-for="item in projects" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
