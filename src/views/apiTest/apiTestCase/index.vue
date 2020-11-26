@@ -3,7 +3,7 @@
     <el-row type="flex" class="button-bar">
       <el-col :span="8" class="switch-project">
         <span>当前项目：{{ currentPro }}</span>
-        <el-button type="primary" icon="el-icon-refresh" circle size="mini" style="margin-left: 15px" @click="openSwitchProDialog"/>
+        <el-button type="primary" icon="el-icon-menu" circle size="mini" style="margin-left: 15px" @click="openSwitchProDialog"/>
       </el-col>
       <el-col :span="4" :offset="8">
         <el-button type="primary" @click="goAddCase">新增测试用例</el-button>
