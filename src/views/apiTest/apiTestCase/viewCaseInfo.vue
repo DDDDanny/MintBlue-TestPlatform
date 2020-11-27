@@ -1,6 +1,6 @@
 <template>
   <temp-page :drawer-visible="drawerVisible" :temp-page-title="tempPageTitle" @handleClose="handleClose">
-    <div>这里写数据展示的信息</div>  
+    <div>这里写数据展示的信息</div>
   </temp-page>
 </template>
 <script>
@@ -15,7 +15,7 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
       tempPageTitle: '用例详情'
     }
@@ -24,7 +24,7 @@ export default {
     // 处理关闭事件
     handleClose () {
       this.$emit('handleClose')
-    },
+    }
   }
 }
 </script>

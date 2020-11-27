@@ -108,7 +108,7 @@ export default {
       // 请求方式下拉选项
       requestMethod: [
         { value: 'post', label: 'POST' }, { value: 'get', label: 'GET' }
-      ],
+      ]
     }
   },
   methods: {
