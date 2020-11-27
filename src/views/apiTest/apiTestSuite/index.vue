@@ -22,7 +22,7 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogDisplay" width="55%" @close="handleCloseDialog">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogDisplay" width="750px" @close="handleCloseDialog">
       <el-form :model="testSuiteForm" :rules="testSuiteAddRules" ref="testSuiteFormRef" label-width="100px">
         <el-form-item label="测试集名称" prop="suiteName">
           <el-input v-model="testSuiteForm.suiteName" autocomplete="off" placeholder="请输入测试集名称" clearable></el-input>
@@ -30,7 +30,7 @@
         <el-form-item label="备注" prop="suiteDesc">
           <el-input v-model="testSuiteForm.suiteDesc" autocomplete="off" placeholder="请输入备注" clearable></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item label="用例选择">
           <el-transfer v-model="selectData" :data="waitData" :titles="transferTitles"></el-transfer>
         </el-form-item>
       </el-form>
