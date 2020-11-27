@@ -109,7 +109,6 @@ export default {
       requestMethod: [
         { value: 'post', label: 'POST' }, { value: 'get', label: 'GET' }
       ],
-      xxx: {}
     }
   },
   methods: {
