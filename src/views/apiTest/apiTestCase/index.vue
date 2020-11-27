@@ -20,7 +20,12 @@
           <el-table-column label="#" type="index"></el-table-column>
           <el-table-column label="用例名称" width="250" prop="caseName"></el-table-column>
           <el-table-column label="用例等级" width="100" prop="caseLevel"></el-table-column>
-          <el-table-column label="请求方式" width="100" prop="requestMethod"></el-table-column>
+          <el-table-column label="请求方式" width="100" prop="requestMethod">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.requestMethod === 'POST'" type="warning">{{ scope.row.requestMethod }}</el-tag>
+              <el-tag v-if="scope.row.requestMethod === 'GET'" type="success">{{ scope.row.requestMethod }}</el-tag>
+            </template>
+          </el-table-column>
           <el-table-column label="请求URL" width="200" prop="requestUrl"></el-table-column>
           <el-table-column label="备注" width="200" prop="remark"></el-table-column>
           <el-table-column label="更新时间" min-width="100" prop="updateTime"></el-table-column>
@@ -72,7 +77,7 @@ export default {
     return {
       caseInfo: [
         { caseName: '用户登录成功', caseLevel: '高', requestMethod: 'POST', requestUrl: '/login', remark: '成功', updateTime: '2020-11-16', creator: 'DDDDanny' },
-        { caseName: '用户登录失败（用户名错误）', caseLevel: '高', requestMethod: 'POST', requestUrl: '/login', remark: '用户名错误，登录失败', updateTime: '2020-11-16', creator: 'DDDDanny' },
+        { caseName: '用户登录失败（用户名错误）', caseLevel: '高', requestMethod: 'GET', requestUrl: '/login', remark: '用户名错误，登录失败', updateTime: '2020-11-16', creator: 'DDDDanny' },
         { caseName: '用户登录失败（密码错误）', caseLevel: '高', requestMethod: 'POST', requestUrl: '/login', remark: '密码错误，登录失败', updateTime: '2020-11-16', creator: 'DDDDanny' }
       ],
       // 项目集合
