@@ -1,7 +1,7 @@
 <template>
   <el-drawer :visible="drawerVisible" size="50%" class="drawer" :append-to-body="true" @close="handleClose">
     <template slot="title">
-      <span class="temp-title">新增测试用例</span>
+      <span class="temp-title">{{ tempPageTitle }}</span>
     </template>
     <slot></slot>
   </el-drawer>
