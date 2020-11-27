@@ -184,9 +184,14 @@ export default {
       // 调用获取当前选中的项目名称
       this.getCurrentProName()
     },
+    // 展示接口测试用例详情
     viewApiCase () {
+      // 这里写数据详情展示的逻辑
+      //
+      //
       this.viewTempPageVisible = true
     },
+    // 处理查看数据爹临时页的关闭事件
     handleViewClose () {
       this.viewTempPageVisible = false
     }

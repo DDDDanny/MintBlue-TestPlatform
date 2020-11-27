@@ -21,6 +21,7 @@ export default {
     }
   },
   methods: {
+    // 处理关闭事件
     handleClose () {
       this.$emit('handleClose')
     },
