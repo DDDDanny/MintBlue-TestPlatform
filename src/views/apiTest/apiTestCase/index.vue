@@ -32,7 +32,7 @@
           <el-table-column label="创建人" min-width="100" prop="creator"></el-table-column>
           <el-table-column label="操作" width="150" fixed='right'>
             <template slot-scope="">
-              <el-button type="success" icon="el-icon-view" size="medium" circle/>
+              <el-button type="success" icon="el-icon-view" size="medium" @click="viewApiCase" circle/>
               <el-button type="primary" icon="el-icon-edit" size="medium" circle/>
               <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delApiCase"/>
             </template>
@@ -51,6 +51,7 @@
         :total="total"/>
     </div>
     <add-case-form :drawerVisible="tempPageVisible" @handleClose="handleClose" @handleSubmit="handleSubmit" />
+    <view-case-info :drawer-visible="viewTempPageVisible" @handleClose="handleViewClose"/>
     <el-dialog title="切换项目" :visible.sync="proDialogDisplay" width="20%">
       <el-form :model="proInfo" label-width="50px">
         <el-form-item label="项目">
@@ -69,10 +70,11 @@
 
 <script>
 import addCaseForm from '@/views/apiTest/apiTestCase/addCaseForm'
+import viewCaseInfo from '@/views/apiTest/apiTestCase/viewCaseInfo'
 
 export default {
   name: 'apiTestCase',
-  components: { addCaseForm },
+  components: { addCaseForm, viewCaseInfo },
   data () {
     return {
       caseInfo: [
@@ -104,7 +106,9 @@ export default {
       // 控制项目选择弹框显示
       proDialogDisplay: false,
       // 当前项目名称
-      currentPro: ''
+      currentPro: '',
+      // View TempPage 开关
+      viewTempPageVisible: false
     }
   },
   created () {
@@ -179,6 +183,12 @@ export default {
       this.proDialogDisplay = false
       // 调用获取当前选中的项目名称
       this.getCurrentProName()
+    },
+    viewApiCase () {
+      this.viewTempPageVisible = true
+    },
+    handleViewClose () {
+      this.viewTempPageVisible = false
     }
   }
 }
