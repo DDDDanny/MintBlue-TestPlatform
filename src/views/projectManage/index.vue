@@ -8,10 +8,10 @@
     <el-row justify="center">
       <el-col :span="24">
         <el-table :data="projectInfo" border :header-cell-style="tableHeaderColor">
-          <el-table-column label="项目名称" prop="proName"></el-table-column>
-          <el-table-column label="项目描述" prop="proDesc"></el-table-column>
-          <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
-          <el-table-column label="创建人" width="150" prop="creater"></el-table-column>
+          <el-table-column label="项目名称" prop="projectName"></el-table-column>
+          <el-table-column label="项目描述" prop="remark"></el-table-column>
+          <el-table-column label="创建时间" width="200" prop="createTime"></el-table-column>
+          <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
           <el-table-column label="操作" width="120" fixed="right">
             <template slot-scope="scope">
               <el-button type="primary" icon="el-icon-edit" size="medium" circle @click="editProjectInfo(scope.row)"></el-button>
@@ -44,11 +44,7 @@ export default {
   data () {
     return {
       // 项目数据
-      projectInfo: [
-        { proName: '项目1', proDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' },
-        { proName: '项目2', proDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' },
-        { proName: '项目3', proDesc: '这是个测试项目', createTime: '2020.11.11', creater: 'DDDDanny' }
-      ],
+      projectInfo: [],
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
       // 项目新增/编辑弹框
@@ -66,6 +62,10 @@ export default {
       isEdit: false
     }
   },
+  created() {
+    // 初始化项目list
+    this.listProject()
+  },
   computed: {
     // 获取 Dialog Title
     dialogTitle: function () {
@@ -74,6 +74,11 @@ export default {
     }
   },
   methods: {
+    // 项目列表
+    async listProject() {
+      const data = await this.$api.listPro()
+      this.projectInfo = data
+    },
     // 删除项目
     delProject () {
       this.$confirm('此操作将永久删除该项目, 是否继续?', '提示', {
