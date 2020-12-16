@@ -62,7 +62,7 @@ export default {
       isEdit: false
     }
   },
-  created() {
+  created () {
     // 初始化项目list
     this.listProject()
   },
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     // 项目列表
-    async listProject() {
+    async listProject () {
       const data = await this.$api.listPro()
       this.projectInfo = data
     },
