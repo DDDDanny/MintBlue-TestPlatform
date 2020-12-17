@@ -109,7 +109,7 @@ export default {
       // 表单
       formLogin: {
         username: '',
-        password: '',
+        password: ''
       },
       // 表单校验
       rules: {
@@ -118,7 +118,7 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' }
-        ],
+        ]
       }
     }
   },
@@ -151,9 +151,9 @@ export default {
             username: this.formLogin.username,
             password: this.formLogin.password
           }).then(() => {
-              // 重定向对象不存在则返回顶层路径
-              this.$router.replace(this.$route.query.redirect || '/')
-            })
+            // 重定向对象不存在则返回顶层路径
+            this.$router.replace(this.$route.query.redirect || '/')
+          })
         } else {
           // 登录表单校验失败
           this.$message.error('表单校验失败，请检查')
