@@ -45,7 +45,7 @@ export function responseSuccess (data = {}, msg = '成功') {
  * @param {String} msg 状态信息
  * @param {Number} code 状态码
  */
-export function responseError (data = {}, msg = '请求失败', code = 500) {
+export function responseError (data = {}, msg = '请求失败', code = -1) {
   return response(data, msg, code)
 }
 

@@ -36,9 +36,9 @@ function createService () {
           case 0:
             // [ 示例 ] code === 0 代表没有错误
             return dataAxios.data
-          case 'xxx':
+          case -1:
             // [ 示例 ] 其它和后台约定的 code
-            errorCreate(`[ code: xxx ] ${dataAxios.msg}: ${response.config.url}`)
+            errorCreate(`${dataAxios.msg}`)
             break
           default:
             // 不是正确的 code
@@ -79,7 +79,7 @@ function createRequestFunction (service) {
     const token = util.cookies.get('token')
     const configDefault = {
       headers: {
-        Authorization: token,
+        Authorization: 'Bearer ' + token,
         'Content-Type': get(config, 'headers.Content-Type', 'application/json')
       },
       timeout: 5000,
