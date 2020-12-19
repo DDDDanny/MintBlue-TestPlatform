@@ -15,7 +15,7 @@
           <el-table-column label="操作" width="120" fixed="right">
             <template slot-scope="scope">
               <el-button type="primary" icon="el-icon-edit" size="medium" circle @click="editProjectInfo(scope.row)"></el-button>
-              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delProject"></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delProject(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -80,16 +80,22 @@ export default {
       this.projectInfo = res
     },
     // 删除项目
-    delProject () {
+    delProject (proRow) {
       this.$confirm('此操作将永久删除该项目, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
+      }).then(async () => {
         // 这里写删除项目的逻辑
-        // ---
-        // ---
+        this.projectForm.isDel = 1
+        this.projectForm.projectID = proRow.projectID
+        const res = await this.$api.editPro(this.projectForm)
+        if (res.status.code !== 0) {
+          this.$message.error('删除失败！')
+          return
+        }
         this.$message.success('删除成功！')
+        this.listProject()
       }).catch(() => {
         this.$message.info('您已取消删除～')
       })
@@ -116,16 +122,19 @@ export default {
             return
           }
           this.$message.success('新增项目成功！')
-          this.projectDialogDisplay = false
-          this.listProject()
         } else {
           // 这里写编辑项目的逻辑
-          // ---
-          // ---
+          const res = await this.$api.editPro(this.projectForm)
+          if (res.status.code === -1) {
+            this.$message.error('项目更新失败！')
+            return
+          }
           this.$message.success('项目更新成功！')
         }
         // 隐藏弹框
         this.projectDialogDisplay = false
+        // 更新项目列表
+        this.listProject()
       })
     },
     // 处理弹窗关闭事件
@@ -138,11 +147,11 @@ export default {
       this.isEdit = true
       this.projectDialogDisplay = true
       console.log(proRow)
-      this.projectForm.proName = proRow.proName
-      this.projectForm.proDesc = proRow.proDesc
-      // 获取编辑项目信息逻辑写在这
-      // ---
-      // ---
+      this.projectForm.projectName = proRow.projectName
+      this.projectForm.remark = proRow.remark
+      this.projectForm.projectID = proRow.projectID
+      this.projectForm.isDel = 0
+      console.log(this.projectForm);
     }
   }
 }
