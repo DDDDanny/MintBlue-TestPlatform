@@ -23,11 +23,11 @@
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="projectDialogDisplay" width="50%" @close="handleCloseDialog">
       <el-form :model="projectForm" :rules="projectAddRules" ref="projectAddRuleForm" label-width="80px">
-        <el-form-item label="项目名称" prop="proName">
-          <el-input v-model="projectForm.proName" autocomplete="off" placeholder="请输入项目名称" clearable></el-input>
+        <el-form-item label="项目名称" prop="projectName">
+          <el-input v-model="projectForm.projectName" autocomplete="off" placeholder="请输入项目名称" clearable></el-input>
         </el-form-item>
-        <el-form-item label="项目描述" prop="proDesc">
-          <el-input v-model="projectForm.proDesc" autocomplete="off" placeholder="请输入项目描述" clearable></el-input>
+        <el-form-item label="项目描述" prop="remark">
+          <el-input v-model="projectForm.remark" autocomplete="off" placeholder="请输入项目描述" clearable></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -51,11 +51,11 @@ export default {
       projectDialogDisplay: false,
       // 新增项目表单
       projectForm: {
-        proName: '',
-        proDesc: ''
+        projectName: '',
+        remark: ''
       },
       projectAddRules: {
-        proName: [
+        projectName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' }
         ]
       },
@@ -76,8 +76,8 @@ export default {
   methods: {
     // 项目列表
     async listProject () {
-      const data = await this.$api.listPro()
-      this.projectInfo = data
+      const { data: res } = await this.$api.listPro()
+      this.projectInfo = res
     },
     // 删除项目
     delProject () {
@@ -103,16 +103,21 @@ export default {
     },
     // 提交新增项目信息
     handleSubmitInfo () {
-      this.$refs.projectAddRuleForm.validate((valid) => {
+      this.$refs.projectAddRuleForm.validate(async valid => {
         if (!valid) {
           this.$message.error('请填写必填项！')
           return
         }
         if (!this.isEdit) {
           // 这里写新增项目的逻辑
-          // ---
-          // ---
+          const res = await this.$api.addPro(this.projectForm)
+          if (res.status.code === -1) {
+            this.$message.error('新增项目失败')
+            return
+          }
           this.$message.success('新增项目成功！')
+          this.projectDialogDisplay = false
+          this.listProject()
         } else {
           // 这里写编辑项目的逻辑
           // ---
