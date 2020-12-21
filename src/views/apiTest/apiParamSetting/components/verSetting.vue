@@ -26,8 +26,8 @@
         <el-form-item label="版本号" prop="version">
           <el-input v-model="versionInfoForm.version" autocomplete="off" placeholder="请输入版本号" clearable></el-input>
         </el-form-item>
-        <el-form-item label="版本信息" prop="verDesc">
-          <el-input v-model="versionInfoForm.verDesc" autocomplete="off" placeholder="请输入版本信息" clearable></el-input>
+        <el-form-item label="版本信息" prop="remark">
+          <el-input v-model="versionInfoForm.remark" autocomplete="off" placeholder="请输入版本信息" clearable></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import util from '@/libs/util'
 export default {
   name: 'verSetting',
   data () {
@@ -51,12 +52,12 @@ export default {
       // 版本信息Form表单
       versionInfoForm: {
         version: '',
-        verDesc: ''
+        remark: ''
       },
       // 版本信息校验规则
       versionInfoRules: {
         version: [{ required: true, message: '请输入版本号', trigger: 'blur' }],
-        verDesc: [{ required: true, message: '请输入版本信息', trigger: 'blur' }]
+        remark: [{ required: true, message: '请输入版本信息', trigger: 'blur' }]
       },
       // 判断是否为编辑
       isEdit: false
@@ -70,6 +71,7 @@ export default {
     }
   },
   created () {
+    // 获取版本信息列表
     this.getVersionList()
   },
   methods: {
@@ -107,15 +109,24 @@ export default {
     },
     // 处理提交版本信息
     handleSubmitVer () {
-      this.$refs.versionRuleForm.validate((valid) => {
+      this.$refs.versionRuleForm.validate( async (valid) => {
         if (!valid) {
           this.$message.error('请填写必填项！')
           return
         }
         if (!this.isEdit) {
+          // 获取Project ID
+          const proID = util.cookies.get('project')
+          if (proID === 'NULL') {
+            this.$message.error('没有可用的项目，请添加项目后重试')
+            return
+          }
+          this.versionInfoForm['projectID'] = proID
           // 新增版本号逻辑写在这
-          //
-          //
+          const res = await this.$api.addVersion(this.versionInfoForm)
+          if (res.status.code !== 0) {
+            this.$message.error('新增版本号失败！')
+          }
           this.$message.success('新增版本号成功！')
         } else {
           // 编辑版本号逻辑写在这
@@ -123,6 +134,8 @@ export default {
           //
           this.$message.success('更新版本号成功！')
         }
+        // 刷新列表
+        this.getVersionList()
         // 隐藏弹框
         this.versionDialogDisplay = false
       })
