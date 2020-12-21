@@ -146,12 +146,10 @@ export default {
     editProjectInfo (proRow) {
       this.isEdit = true
       this.projectDialogDisplay = true
-      console.log(proRow)
       this.projectForm.projectName = proRow.projectName
       this.projectForm.remark = proRow.remark
       this.projectForm.projectID = proRow.projectID
       this.projectForm.isDel = 0
-      console.log(this.projectForm);
     }
   }
 }

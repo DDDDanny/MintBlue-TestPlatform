@@ -40,6 +40,7 @@
 
 <script>
 import util from '@/libs/util'
+
 export default {
   name: 'verSetting',
   data () {
@@ -126,12 +127,16 @@ export default {
           const res = await this.$api.addVersion(this.versionInfoForm)
           if (res.status.code !== 0) {
             this.$message.error('新增版本号失败！')
+            return
           }
           this.$message.success('新增版本号成功！')
         } else {
           // 编辑版本号逻辑写在这
-          //
-          //
+          const res = await this.$api.editVersion(this.versionInfoForm)
+          if (res.status.code !== 0) {
+            this.$message.error('更新版本号失败！')
+            return
+          }
           this.$message.success('更新版本号成功！')
         }
         // 刷新列表
@@ -150,7 +155,10 @@ export default {
       this.isEdit = true
       this.versionDialogDisplay = true
       this.versionInfoForm.version = verRow.version
-      this.versionInfoForm.verDesc = verRow.verDesc
+      this.versionInfoForm.remark = verRow.remark
+      this.versionInfoForm.versionID = verRow.verID
+      this.versionInfoForm.isDel = 0
+      console.log(this.versionInfoForm);
     }
   }
 }
