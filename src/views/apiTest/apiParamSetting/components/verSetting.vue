@@ -15,7 +15,7 @@
           <el-table-column label="操作" width="100" fixed="right">
             <template slot-scope="scope">
               <el-button type="text" size="medium" @click="editVersion(scope.row)">编辑</el-button>
-              <el-button type="text" size="medium" @click="delVersion">删除</el-button>
+              <el-button type="text" size="medium" @click="delVersion(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -87,16 +87,23 @@ export default {
       this.versionInfo = res.data
     },
     // 删除版本
-    delVersion () {
+    delVersion (verRow) {
       this.$confirm('此操作将永久删除该版本, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
+      }).then(async () => {
         // 这里写删除项目的逻辑
-        // ---
-        // ---
+        this.versionInfoForm.isDel = 1
+        this.versionInfoForm.versionID = verRow.verID
+        console.log(this.versionInfoForm);
+        const res = await this.$api.editVersion(this.versionInfoForm)
+        if (res.status.code !== 0) {
+          this.$message.error('删除失败！')
+          return
+        }
         this.$message.success('删除成功！')
+        this.getVersionList()
       }).catch(() => {
         this.$message.info('您已取消删除～')
       })
