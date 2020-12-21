@@ -9,8 +9,8 @@
       <el-col :span="24">
         <el-table :data="versionInfo" :header-cell-style="tableHeaderColor" border>
           <el-table-column label="版本号" prop="version"></el-table-column>
-          <el-table-column label="版本信息" min-width="200" prop="verDesc"></el-table-column>
-          <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
+          <el-table-column label="版本信息" min-width="200" prop="remark"></el-table-column>
+          <el-table-column label="创建时间" width="200" prop="createTime"></el-table-column>
           <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
           <el-table-column label="操作" width="100" fixed="right">
             <template slot-scope="scope">
@@ -43,10 +43,7 @@ export default {
   name: 'verSetting',
   data () {
     return {
-      versionInfo: [
-        { version: 'V2.10.0', verDesc: '版本信息1', createTime: '2020.11.12', creator: 'DDDDanny' },
-        { version: 'V2.11.0', verDesc: '版本信息2', createTime: '2020.11.13', creator: 'DDDDanny' }
-      ],
+      versionInfo: [],
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
       // 控制弹框是否显示
@@ -58,12 +55,8 @@ export default {
       },
       // 版本信息校验规则
       versionInfoRules: {
-        version: [
-          { required: true, message: '请输入版本号', trigger: 'blur' }
-        ],
-        verDesc: [
-          { required: true, message: '请输入版本信息', trigger: 'blur' }
-        ]
+        version: [{ required: true, message: '请输入版本号', trigger: 'blur' }],
+        verDesc: [{ required: true, message: '请输入版本信息', trigger: 'blur' }]
       },
       // 判断是否为编辑
       isEdit: false
@@ -76,7 +69,20 @@ export default {
       return '新增版本号'
     }
   },
+  created () {
+    this.getVersionList()
+  },
   methods: {
+    // 获取版本号列表
+    async getVersionList () {
+      const res = await this.$api.listVersion()
+      console.log(res);
+      if (res.status.code !== 0) {
+        this.$message.error('获取版本号列表失败')
+        return
+      }
+      this.versionInfo = res.data
+    },
     // 删除版本
     delVersion () {
       this.$confirm('此操作将永久删除该版本, 是否继续?', '提示', {
