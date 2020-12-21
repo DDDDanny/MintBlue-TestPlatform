@@ -79,7 +79,6 @@ export default {
     // 获取版本号列表
     async getVersionList () {
       const res = await this.$api.listVersion()
-      console.log(res);
       if (res.status.code !== 0) {
         this.$message.error('获取版本号列表失败')
         return
@@ -96,7 +95,6 @@ export default {
         // 这里写删除项目的逻辑
         this.versionInfoForm.isDel = 1
         this.versionInfoForm.versionID = verRow.verID
-        console.log(this.versionInfoForm);
         const res = await this.$api.editVersion(this.versionInfoForm)
         if (res.status.code !== 0) {
           this.$message.error('删除失败！')
@@ -117,7 +115,7 @@ export default {
     },
     // 处理提交版本信息
     handleSubmitVer () {
-      this.$refs.versionRuleForm.validate( async (valid) => {
+      this.$refs.versionRuleForm.validate(async (valid) => {
         if (!valid) {
           this.$message.error('请填写必填项！')
           return
@@ -129,7 +127,7 @@ export default {
             this.$message.error('没有可用的项目，请添加项目后重试')
             return
           }
-          this.versionInfoForm['projectID'] = proID
+          this.versionInfoForm.projectID = proID
           // 新增版本号逻辑写在这
           const res = await this.$api.addVersion(this.versionInfoForm)
           if (res.status.code !== 0) {
@@ -165,7 +163,6 @@ export default {
       this.versionInfoForm.remark = verRow.remark
       this.versionInfoForm.versionID = verRow.verID
       this.versionInfoForm.isDel = 0
-      console.log(this.versionInfoForm);
     }
   }
 }
