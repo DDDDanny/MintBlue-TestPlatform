@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import util from '@/libs/util'
 export default {
   name: 'envSetting',
   data () {
@@ -103,15 +104,25 @@ export default {
     },
     // 处理提交环境信息
     handleSubmitEnv () {
-      this.$refs.envRuleForm.validate((valid) => {
+      this.$refs.envRuleForm.validate(async (valid) => {
         if (!valid) {
           this.$message.error('请填写必填项！')
           return
         }
         if (!this.isEdit) {
+          // 获取project ID
+          const proID = util.cookies.get('project')
+          if (proID === 'NULL') {
+            this.$message.error('没有可用的项目，请添加项目后重试')
+            return
+          }
           // 新增环境信息逻辑写在这里
-          //
-          //
+          this.envInfoForm.projectID = proID
+          const res = await this.$api.addEnv(this.envInfoForm)
+          if (res.status.code !== 0) {
+            this.$message.error('新增环境信息失败！')
+            return
+          }
           this.$message.success('新增环境信息成功')
         } else {
           // 编辑环境信息逻辑写在这里
@@ -119,6 +130,8 @@ export default {
           //
           this.$message.success('更新环境信息成功')
         }
+        // 刷新列表
+        this.getEnvList()
         // 隐藏弹框
         this.envDialogDisplay = false
       })

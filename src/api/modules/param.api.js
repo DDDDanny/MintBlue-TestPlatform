@@ -7,4 +7,6 @@ export default ({ request }) => ({
   editVersion (data = {}) { return request({ url: '/version/edit', method: 'post', data }) },
   // 获取环境信息
   listEnv () { return request({ url: '/env/list', method: 'get' }) },
+  // 新增环境信息
+  addEnv (data = {}) { return request({ url: '/env/add', method: 'post', data }) }
 })
