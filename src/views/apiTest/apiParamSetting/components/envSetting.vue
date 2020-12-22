@@ -123,12 +123,15 @@ export default {
             this.$message.error('新增环境信息失败！')
             return
           }
-          this.$message.success('新增环境信息成功')
+          this.$message.success('新增环境信息成功!')
         } else {
           // 编辑环境信息逻辑写在这里
-          //
-          //
-          this.$message.success('更新环境信息成功')
+          const res = await this.$api.editEnv(this.envInfoForm)
+          if (res.status.code !== 0) {
+            this.$message.error('更新环境信息失败！')
+            return
+          }
+          this.$message.success('更新环境信息成功！')
         }
         // 刷新列表
         this.getEnvList()
@@ -145,8 +148,11 @@ export default {
     editEnv (envRow) {
       this.isEdit = true
       this.envDialogDisplay = true
+      // 构建编辑信息
       this.envInfoForm.envName = envRow.envName
       this.envInfoForm.baseURL = envRow.baseURL
+      this.envInfoForm.envID = envRow.envID
+      this.envInfoForm.isDel = 0
     }
   }
 }
