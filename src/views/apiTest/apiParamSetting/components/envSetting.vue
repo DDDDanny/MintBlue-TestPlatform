@@ -15,7 +15,7 @@
           <el-table-column label="操作" width="100" fixed="right">
             <template slot-scope="scope">
               <el-button type="text" size="medium" @click="editEnv(scope.row)">编辑</el-button>
-              <el-button type="text" size="medium" @click="delEnv">删除</el-button>
+              <el-button type="text" size="medium" @click="delEnv(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -81,16 +81,22 @@ export default {
       this.envInfo = res.data
     },
     // 删除环境参数
-    delEnv () {
+    delEnv (envRow) {
       this.$confirm('此操作将永久删除该环境参数, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
+      }).then(async () => {
         // 这里写删除项目的逻辑
-        // ---
-        // ---
+        this.envInfoForm.isDel = 1
+        this.envInfoForm.envID = envRow.envID
+        const res = await this.$api.editEnv(this.envInfoForm)
+        if (res.status.code !== 0) {
+          this.$message.error('删除失败！')
+          return
+        }
         this.$message.success('删除成功！')
+        this.getEnvList()
       }).catch(() => {
         this.$message.info('您已取消删除～')
       })
