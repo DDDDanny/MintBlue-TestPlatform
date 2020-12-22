@@ -10,7 +10,7 @@
         <el-table :data="envInfo" :header-cell-style="tableHeaderColor" border>
           <el-table-column label="环境名称" prop="envName"></el-table-column>
           <el-table-column label="基础地址" min-width="200" prop="baseURL"></el-table-column>
-          <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
+          <el-table-column label="创建时间" width="200" prop="createTime"></el-table-column>
           <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
           <el-table-column label="操作" width="100" fixed="right">
             <template slot-scope="scope">
@@ -43,10 +43,8 @@ export default {
   name: 'envSetting',
   data () {
     return {
-      envInfo: [
-        { envName: '正式环境', baseURL: 'https://xiaojing0.com/workbench_api', createTime: '2020.11.12', creator: 'DDDDanny' },
-        { envName: '测试环境', baseURL: 'https://dev.xiaojing0.com/workbench_api', createTime: '2020.11.13', creator: 'DDDDanny' }
-      ],
+      // 环境列表数据
+      envInfo: [],
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
       // 控制弹框是否显示
@@ -58,16 +56,16 @@ export default {
       },
       // 环境信息校验规则
       envInfoRules: {
-        envName: [
-          { required: true, message: '请输入环境名称', trigger: 'blur' }
-        ],
-        baseURL: [
-          { required: true, message: '请输入基础地址', trigger: 'blur' }
-        ]
+        envName: [{ required: true, message: '请输入环境名称', trigger: 'blur' }],
+        baseURL: [{ required: true, message: '请输入基础地址', trigger: 'blur' }]
       },
       // 判断是否为编辑
       isEdit: false
     }
+  },
+  created () {
+    // 获取环境信息
+    this.getEnvList()
   },
   computed: {
     dialogTitle: function () {
@@ -76,6 +74,11 @@ export default {
     }
   },
   methods: {
+    // 获取环境参数列表
+    async getEnvList () {
+      const res = await this.$api.listEnv()
+      this.envInfo = res.data
+    },
     // 删除环境参数
     delEnv () {
       this.$confirm('此操作将永久删除该环境参数, 是否继续?', '提示', {
