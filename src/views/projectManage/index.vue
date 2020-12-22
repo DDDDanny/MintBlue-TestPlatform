@@ -146,6 +146,7 @@ export default {
     editProjectInfo (proRow) {
       this.isEdit = true
       this.projectDialogDisplay = true
+      // 构建编辑信息
       this.projectForm.projectName = proRow.projectName
       this.projectForm.remark = proRow.remark
       this.projectForm.projectID = proRow.projectID

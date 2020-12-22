@@ -159,6 +159,7 @@ export default {
     editVersion (verRow) {
       this.isEdit = true
       this.versionDialogDisplay = true
+      // 构建编辑信息
       this.versionInfoForm.version = verRow.version
       this.versionInfoForm.remark = verRow.remark
       this.versionInfoForm.versionID = verRow.verID
