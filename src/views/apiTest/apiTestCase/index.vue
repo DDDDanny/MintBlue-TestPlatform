@@ -2,8 +2,7 @@
   <d2-container>
     <el-row type="flex" class="button-bar">
       <el-col :span="8" class="switch-project">
-        <span>当前项目：{{ currentPro }}</span>
-        <el-button type="primary" icon="el-icon-menu" circle size="mini" style="margin-left: 15px" @click="openSwitchProDialog"/>
+        <switch-project @switchProject='switchProject' ref="switchPro" />
       </el-col>
       <el-col :span="4" :offset="8">
         <el-button type="primary" @click="goAddCase">新增测试用例</el-button>
@@ -52,29 +51,18 @@
     </div>
     <add-case-form :drawerVisible="tempPageVisible" @handleClose="handleClose" @handleSubmit="handleSubmit" />
     <view-case-info :drawer-visible="viewTempPageVisible" @handleClose="handleViewClose"/>
-    <el-dialog title="切换项目" :visible.sync="proDialogDisplay" width="20%">
-      <el-form :model="proInfo" label-width="50px">
-        <el-form-item label="项目">
-          <el-select v-model="proInfo.proId" placeholder="请选择项目" style="width: 100%">
-            <el-option v-for="item in projects" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="proDialogDisplay = false">取 消</el-button>
-        <el-button type="primary" @click="handleSwitchPro">确 定</el-button>
-      </span>
-    </el-dialog>
   </d2-container>
 </template>
 
 <script>
+import util from '@/libs/util'
 import addCaseForm from '@/views/apiTest/apiTestCase/addCaseForm'
 import viewCaseInfo from '@/views/apiTest/apiTestCase/viewCaseInfo'
+import switchProject from '@/components/switchProject'
 
 export default {
   name: 'apiTestCase',
-  components: { addCaseForm, viewCaseInfo },
+  components: { addCaseForm, viewCaseInfo, switchProject },
   data () {
     return {
       caseInfo: [
@@ -82,15 +70,6 @@ export default {
         { caseName: '用户登录失败（用户名错误）', caseLevel: '高', requestMethod: 'GET', requestUrl: '/login', remark: '用户名错误，登录失败', updateTime: '2020-11-16', creator: 'DDDDanny' },
         { caseName: '用户登录失败（密码错误）', caseLevel: '高', requestMethod: 'POST', requestUrl: '/login', remark: '密码错误，登录失败', updateTime: '2020-11-16', creator: 'DDDDanny' }
       ],
-      // 项目集合
-      projects: [
-        { label: '校精灵', value: '001' },
-        { label: '选课精灵', value: '002' },
-        { label: '好生源', value: '003' }
-      ],
-      proInfo: {
-        proId: ''
-      },
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
       // 数据总数
@@ -103,27 +82,19 @@ export default {
       },
       // TempPage 开关
       tempPageVisible: false,
-      // 控制项目选择弹框显示
-      proDialogDisplay: false,
-      // 当前项目名称
-      currentPro: '',
       // View TempPage 开关
       viewTempPageVisible: false
     }
   },
   created () {
-    this.getCurrentProName()
     this.getCaseList()
   },
-  methods: {
+  mounted () {
     // 获取当前项目名称
-    getCurrentProName () {
-      // 这里写获取项目信息的逻辑
-      //
-      //
-      // 获取当前项目的项目名称(暂时这么取)
-      this.currentPro = this.$store.state.seletedProject
-    },
+    const projectName = JSON.parse(util.cookies.get('project')).label
+    this.$refs.switchPro.currentPro = projectName
+  },
+  methods: {
     // 获取用例列表信息
     getCaseList () {
       // 获取测试用例列表信息逻辑写在这
@@ -168,22 +139,6 @@ export default {
     handleSubmit (val) {
       console.log(val)
     },
-    // 打开切换项目弹框
-    openSwitchProDialog () {
-      // 初始化项目下拉菜单默认选项
-      this.proInfo.proId = this.$store.state.seletedProject
-      // 显示弹框
-      this.proDialogDisplay = true
-    },
-    // 处理切换项目
-    handleSwitchPro () {
-      // 拿到被选中的项目ID
-      this.$store.state.seletedProject = this.proInfo.proId
-      // 隐藏弹框
-      this.proDialogDisplay = false
-      // 调用获取当前选中的项目名称
-      this.getCurrentProName()
-    },
     // 展示接口测试用例详情
     viewApiCase () {
       // 这里写数据详情展示的逻辑
@@ -191,9 +146,13 @@ export default {
       //
       this.viewTempPageVisible = true
     },
-    // 处理查看数据爹临时页的关闭事件
+    // 处理查看数据临时页的关闭事件
     handleViewClose () {
       this.viewTempPageVisible = false
+    },
+    // 切换项目后，刷新列表
+    switchProject() {
+      this.getCaseList()
     }
   }
 }
