@@ -151,7 +151,7 @@ export default {
       this.viewTempPageVisible = false
     },
     // 切换项目后，刷新列表
-    switchProject() {
+    switchProject () {
       this.getCaseList()
     }
   }

@@ -19,10 +19,11 @@
 </template>
 
 <script>
-import util from '@/libs/util';
+import util from '@/libs/util'
+
 export default {
   name: 'switchProject',
-  data() {
+  data () {
     return {
       // 当前项目名称
       currentPro: '',
@@ -31,7 +32,7 @@ export default {
       // 项目信息
       projects: [],
       // 被选中的项目信息
-      selectedProInfo: {},
+      selectedProInfo: {}
     }
   },
   methods: {
@@ -75,9 +76,9 @@ export default {
       this.$message.success('切换项目成功！')
       // 调用获取当前选中的项目名称
       this.getCurrentProName()
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
