@@ -1,7 +1,10 @@
 <template>
   <d2-container>
     <el-row justify="end" type="flex" class="button-bar">
-      <el-col :span="3" :offset="3">
+      <el-col :span="8" class="switch-project">
+        <switch-project @switchProject='switchProject' ref="switchPro" />
+      </el-col>
+      <el-col :span="4" :offset="12">
         <el-button type="primary" @click="addTestSuite">新增测试集</el-button>
       </el-col>
     </el-row>
@@ -43,8 +46,12 @@
 </template>
 
 <script>
+import util from '@/libs/util'
+import switchProject from '@/components/switchProject'
+
 export default {
   name: 'apiTestSuite',
+  components: { switchProject },
   data () {
     return {
       caseSuiteInfo: [
@@ -87,7 +94,16 @@ export default {
       return '新增测试集'
     }
   },
+  mounted () {
+    // 获取当前项目名称
+    const projectName = JSON.parse(util.cookies.get('project')).label
+    this.$refs.switchPro.currentPro = projectName
+  },
   methods: {
+    // 获取集合列表
+    getSuiteList (){
+      // 这里写获取测试集获取逻辑
+    },
     // 删除测试集
     delSuite () {
       this.$confirm('此操作将永久删除该测试集, 是否继续?', '提示', {
@@ -148,6 +164,11 @@ export default {
       // 获取编辑项目信息逻辑写在这
       // ---
       // ---
+    },
+    // 切换校区
+    switchProject () {
+      // 重新获取列表
+      this.getSuiteList()
     }
   }
 }
@@ -156,5 +177,10 @@ export default {
 <style lang="scss" scoped>
   .button-bar {
     margin-bottom: 25px;
+  }
+  .switch-project {
+    display:flex;
+    // justify-content:center;/*主轴上居中*/
+    align-items:center;/*侧轴上居中*/
   }
 </style>
