@@ -1,7 +1,10 @@
 <template>
   <d2-container>
     <el-row justify="end" type="flex" class="button-bar">
-      <el-col :span="3" :offset="3">
+      <el-col :span="8" class="switch-project">
+        <switch-project @switchProject='switchProject' ref="switchPro" />
+      </el-col>
+      <el-col :span="4" :offset="12">
         <el-button type="primary" @click="addTestTask">新增测试任务</el-button>
       </el-col>
     </el-row>
@@ -56,8 +59,12 @@
 </template>
 
 <script>
+import util from '@/libs/util'
+import switchProject from '@/components/switchProject'
+
 export default {
   name: 'apiTestTask',
+  components: { switchProject },
   data () {
     return {
       caseTaskInfo: [
@@ -100,7 +107,16 @@ export default {
       ]
     }
   },
+  mounted () {
+    // 获取当前项目名称
+    const projectName = JSON.parse(util.cookies.get('project')).label
+    this.$refs.switchPro.currentPro = projectName
+  },
   methods: {
+    // 获取测试任务列表
+    getTaskList () {
+      // 这里写获取任务列表的逻辑
+    },
     // 删除测试任务
     delTestTask () {
       this.$confirm('此操作将永久删除该测试任务, 是否继续?', '提示', {
@@ -145,6 +161,10 @@ export default {
         this.dialogDisplay = false
         this.$message.success('新增测试任务成功！')
       })
+    },
+    // 切换项目
+    switchProject () {
+      this.getTaskList()
     }
   }
 }
@@ -156,5 +176,10 @@ export default {
   }
   .selector-base {
     width: 100%
+  }
+  .switch-project {
+    display:flex;
+    // justify-content:center;/*主轴上居中*/
+    align-items:center;/*侧轴上居中*/
   }
 </style>
