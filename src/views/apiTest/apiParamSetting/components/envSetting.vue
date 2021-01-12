@@ -1,7 +1,10 @@
 <template>
   <div>
     <el-row justify="end" type="flex" class="button-bar">
-      <el-col :span="3" :offset="3">
+      <el-col :span="8" class="switch-project">
+        <switch-project @switchProject='switchProject' ref="switchPro" />
+      </el-col>
+      <el-col :span="4" :offset="12">
         <el-button type="primary" @click="addEnv">新增环境</el-button>
       </el-col>
     </el-row>
@@ -40,8 +43,11 @@
 
 <script>
 import util from '@/libs/util'
+import switchProject from '@/components/switchProject'
+
 export default {
   name: 'envSetting',
+  components: { switchProject },
   data () {
     return {
       // 环境列表数据
@@ -73,6 +79,11 @@ export default {
       if (this.isEdit) return '编辑环境参数'
       return '新增环境参数'
     }
+  },
+  mounted () {
+    // 获取当前项目名称
+    const projectName = JSON.parse(util.cookies.get('project')).label
+    this.$refs.switchPro.currentPro = projectName
   },
   methods: {
     // 获取环境参数列表
@@ -159,6 +170,10 @@ export default {
       this.envInfoForm.baseURL = envRow.baseURL
       this.envInfoForm.envID = envRow.envID
       this.envInfoForm.isDel = 0
+    },
+    // 切换项目
+    switchProject () {
+      this.getEnvList()
     }
   }
 }
@@ -167,5 +182,10 @@ export default {
 <style lang="scss" scoped>
   .button-bar {
     margin-bottom: 25px;
+  }
+  .switch-project {
+    display:flex;
+    // justify-content:center;/*主轴上居中*/
+    align-items:center;/*侧轴上居中*/
   }
 </style>
