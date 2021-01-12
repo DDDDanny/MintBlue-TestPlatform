@@ -1,7 +1,10 @@
 <template>
   <div>
     <el-row justify="end" type="flex" class="button-bar">
-      <el-col :span="3" :offset="3">
+      <el-col :span="8" class="switch-project">
+        <switch-project @switchProject='switchProject' ref="switchPro" />
+      </el-col>
+      <el-col :span="4" :offset="12">
         <el-button type="primary" @click="addVersion">新增版本</el-button>
       </el-col>
     </el-row>
@@ -40,9 +43,11 @@
 
 <script>
 import util from '@/libs/util'
+import switchProject from '@/components/switchProject'
 
 export default {
   name: 'verSetting',
+  components: { switchProject },
   data () {
     return {
       versionInfo: [],
@@ -74,6 +79,11 @@ export default {
   created () {
     // 获取版本信息列表
     this.getVersionList()
+  },
+  mounted () {
+    // 获取当前项目名称
+    const projectName = JSON.parse(util.cookies.get('project')).label
+    this.$refs.switchPro.currentPro = projectName
   },
   methods: {
     // 获取版本号列表
@@ -164,6 +174,10 @@ export default {
       this.versionInfoForm.remark = verRow.remark
       this.versionInfoForm.versionID = verRow.verID
       this.versionInfoForm.isDel = 0
+    },
+    // 切换项目
+    switchProject () {
+      this.getVersionList()
     }
   }
 }
@@ -172,5 +186,10 @@ export default {
 <style lang="scss" scoped>
   .button-bar {
     margin-bottom: 25px;
+  }
+  .switch-project {
+    display:flex;
+    // justify-content:center;/*主轴上居中*/
+    align-items:center;/*侧轴上居中*/
   }
 </style>
