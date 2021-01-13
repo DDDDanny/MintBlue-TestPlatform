@@ -1,17 +1,18 @@
 <template>
   <d2-container>
-    <el-tabs type="border-card" v-model="activeName">
+    <el-tabs type="border-card" v-model="activeName" @tab-click="updateProject">
       <el-tab-pane label="版本号" name="ver">
-        <ver-setting/>
+        <ver-setting ref="verRef" />
       </el-tab-pane>
       <el-tab-pane label="环境参数" name="env">
-        <env-setting/>
+        <env-setting ref="envRef" />
       </el-tab-pane>
     </el-tabs>
   </d2-container>
 </template>
 
 <script>
+import util from '@/libs/util'
 import envSetting from '@/views/apiTest/apiParamSetting/components/envSetting'
 import verSetting from '@/views/apiTest/apiParamSetting/components/verSetting'
 
@@ -20,7 +21,16 @@ export default {
   components: { envSetting, verSetting },
   data() {
     return {
-      activeName: 'ver'
+      activeName: 'ver',
+    }
+  },
+  methods: {
+    // 切换Tab，更新项目
+    updateProject () {
+      // 获取当前项目名称
+      const projectName = JSON.parse(util.cookies.get('project')).label
+      this.$refs.verRef.$refs.switchPro.currentPro = projectName
+      this.$refs.envRef.$refs.switchPro.currentPro = projectName
     }
   },
 }
