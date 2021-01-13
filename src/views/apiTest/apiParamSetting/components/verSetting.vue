@@ -48,6 +48,13 @@ import switchProject from '@/components/switchProject'
 export default {
   name: 'verSetting',
   components: { switchProject },
+  props: {
+    // 改变Tab标示
+    changeTabFlag: {
+      type: String,
+      default: ''
+    },
+  },
   data () {
     return {
       versionInfo: [],
@@ -80,12 +87,22 @@ export default {
     // 获取版本信息列表
     this.getVersionList()
   },
+  watch: {
+    // 监听Tab是否变化
+    changeTabFlag () {
+      this.getCurrentProjectName()
+    }
+  },
   mounted () {
     // 获取当前项目名称
-    const projectName = JSON.parse(util.cookies.get('project')).label
-    this.$refs.switchPro.currentPro = projectName
+    this.getCurrentProjectName()
   },
   methods: {
+    // 获取当前项目名称
+    getCurrentProjectName () {
+      const projectName = JSON.parse(util.cookies.get('project')).label
+      this.$refs.switchPro.currentPro = projectName
+    },
     // 获取版本号列表
     async getVersionList () {
       const res = await this.$api.listVersion()

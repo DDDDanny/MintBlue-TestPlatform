@@ -48,6 +48,13 @@ import switchProject from '@/components/switchProject'
 export default {
   name: 'envSetting',
   components: { switchProject },
+  props: {
+    // 改变Tab标示
+    changeTabFlag: {
+      type: String,
+      default: ''
+    },
+  },
   data () {
     return {
       // 环境列表数据
@@ -80,12 +87,22 @@ export default {
       return '新增环境参数'
     }
   },
+  watch: {
+    // 监听Tab是否变化
+    changeTabFlag () {
+      this.getCurrentProjectName()
+    }
+  },
   mounted () {
     // 获取当前项目名称
-    const projectName = JSON.parse(util.cookies.get('project')).label
-    this.$refs.switchPro.currentPro = projectName
+    this.getCurrentProjectName()
   },
   methods: {
+    // 获取当前项目名称
+    getCurrentProjectName () {
+      const projectName = JSON.parse(util.cookies.get('project')).label
+      this.$refs.switchPro.currentPro = projectName
+    },
     // 获取环境参数列表
     async getEnvList () {
       const res = await this.$api.listEnv()

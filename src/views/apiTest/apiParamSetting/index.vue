@@ -1,11 +1,11 @@
 <template>
   <d2-container>
-    <el-tabs type="border-card" v-model="activeName" @tab-click="updateProject">
+    <el-tabs type="border-card" v-model="activeName">
       <el-tab-pane label="版本号" name="ver">
-        <ver-setting ref="verRef" />
+        <ver-setting ref="verRef" :change-tab-flag="activeName" />
       </el-tab-pane>
       <el-tab-pane label="环境参数" name="env">
-        <env-setting ref="envRef" />
+        <env-setting ref="envRef" :change-tab-flag="activeName" />
       </el-tab-pane>
     </el-tabs>
   </d2-container>
@@ -23,15 +23,6 @@ export default {
     return {
       activeName: 'ver',
     }
-  },
-  methods: {
-    // 切换Tab，更新项目
-    updateProject () {
-      // 获取当前项目名称
-      const projectName = JSON.parse(util.cookies.get('project')).label
-      this.$refs.verRef.$refs.switchPro.currentPro = projectName
-      this.$refs.envRef.$refs.switchPro.currentPro = projectName
-    }
-  },
+  }
 }
 </script>
