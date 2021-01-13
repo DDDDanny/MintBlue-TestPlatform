@@ -12,16 +12,15 @@
 </template>
 
 <script>
-import util from '@/libs/util'
 import envSetting from '@/views/apiTest/apiParamSetting/components/envSetting'
 import verSetting from '@/views/apiTest/apiParamSetting/components/verSetting'
 
 export default {
   name: 'apiParamSetting',
   components: { envSetting, verSetting },
-  data() {
+  data () {
     return {
-      activeName: 'ver',
+      activeName: 'ver'
     }
   }
 }

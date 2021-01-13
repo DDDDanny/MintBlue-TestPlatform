@@ -53,7 +53,7 @@ export default {
     changeTabFlag: {
       type: String,
       default: ''
-    },
+    }
   },
   data () {
     return {

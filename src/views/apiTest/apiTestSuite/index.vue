@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     // 获取集合列表
-    getSuiteList (){
+    getSuiteList () {
       // 这里写获取测试集获取逻辑
     },
     // 删除测试集
