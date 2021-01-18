@@ -28,7 +28,8 @@ export default {
       const project = util.cookies.get('project')
       // 如果cookies中有project信息
       if (!project) {
-        util.cookies.set('project', res.data.projectID)
+        const projectInfo = { label: res.data.projectName, value: res.data.projectID }
+        util.cookies.set('project', projectInfo)
       }
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { name: res.data.userName }, { root: true })
