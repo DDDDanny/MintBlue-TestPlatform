@@ -12,12 +12,12 @@
       <el-col :span="24">
         <el-table :data="caseTaskInfo" :header-cell-style="tableHeaderColor" border>
           <el-table-column label="任务名称" width="200" prop="taskName"></el-table-column>
-          <el-table-column label="任务开始时间" width="200" prop="startTime"></el-table-column>
-          <el-table-column label="任务结束时间" width="200" prop="endTime"></el-table-column>
           <el-table-column label="测试集" width="100" prop="caseSuite"></el-table-column>
           <el-table-column label="版本号" width="100" prop="version"></el-table-column>
+          <el-table-column label="任务开始时间" width="200" prop="startTime"></el-table-column>
+          <el-table-column label="任务结束时间" width="200" prop="endTime"></el-table-column>
           <el-table-column label="任务状态" width="100" prop="taskStatus"></el-table-column>
-          <el-table-column label="创建时间" width="150" prop="createTime"></el-table-column>
+          <el-table-column label="创建时间" width="200" prop="createTime"></el-table-column>
           <el-table-column label="创建人" min-width="100" prop="creator"></el-table-column>
           <el-table-column label="操作" width="250" fixed="right">
             <template slot-scope="">
@@ -67,11 +67,8 @@ export default {
   components: { switchProject },
   data () {
     return {
-      caseTaskInfo: [
-        { taskName: 'Api测试任务1', startTime: '2020.11.20 15:00', endTime: '2020.11.20 15:30', caseSuite: '测试集1', version: 'V2.10.0', taskStatus: '已完成', createTime: '2020.11.20 15:00', creator: 'DDDDanny' },
-        { taskName: 'Api测试任务2', startTime: '2020.11.20 15:00', endTime: '-', caseSuite: '测试集2', version: 'V2.10.0', taskStatus: '进行中', createTime: '2020.11.20 15:00', creator: 'DDDDanny' },
-        { taskName: 'Api测试任务3', startTime: '2020.11.20 15:00', endTime: '-', caseSuite: '测试集3', version: 'V2.10.0', taskStatus: '未开始', createTime: '2020.11.20 15:00', creator: 'DDDDanny' }
-      ],
+      // 表格数据信息
+      caseTaskInfo: [],
       // 控制表头颜色
       tableHeaderColor: { background: '#FAFAFA' },
       // 测试任务表单
@@ -107,6 +104,9 @@ export default {
       ]
     }
   },
+  created() {
+    this.getTaskList()
+  },
   mounted () {
     // 获取当前项目名称
     const projectName = JSON.parse(util.cookies.get('project')).label
@@ -114,8 +114,14 @@ export default {
   },
   methods: {
     // 获取测试任务列表
-    getTaskList () {
+    async getTaskList () {
       // 这里写获取任务列表的逻辑
+      const res = await this.$api.listTask()
+      if (res.status.code !== 0) {
+        this.$message.error('任务列表获取失败！')
+        return
+      }
+      this.caseTaskInfo = res.data
     },
     // 删除测试任务
     delTestTask () {
