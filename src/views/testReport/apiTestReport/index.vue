@@ -59,11 +59,7 @@ export default {
       // 数据总数
       total: 0,
       // 测试报告列表数据
-      apiReports: [
-        { reportName: 'Api测试报告1', version: 'V2.10.0', successNum: '12', failNum: '5', createTime: '2020-12-01 18:00' },
-        { reportName: 'Api测试报告2', version: 'V2.11.0', successNum: '50', failNum: '6', createTime: '2020-12-01 20:30' },
-        { reportName: 'Api测试报告3', version: 'V2.12.0', successNum: '35', failNum: '8', createTime: '2020-12-01 23:50' }
-      ],
+      apiReports: [],
       // 控制表头颜色
       tableHeaderColor: { background: '#FAFAFA' }
     }
@@ -73,7 +69,13 @@ export default {
   },
   methods: {
     // 获取报告列表数据
-    getReportList () {
+    async getReportList () {
+      const res = await this.$api.listApiTestReport()
+      if (res.status.code !== 0) {
+        this.$message.error('获取测试报告列表失败！')
+        return
+      }
+      this.apiReports = res.data
       this.total = this.apiReports.length
     },
     // pageSize 改变时会触发
