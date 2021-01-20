@@ -1,7 +1,10 @@
 <template>
   <d2-container>
     <el-row justify="end" type="flex" class="button-bar">
-      <el-col :span="6" :gutter="12">
+      <el-col :span="8" class="switch-project">
+        <switch-project @switchProject='switchProject' ref="switchPro" />
+      </el-col>
+      <el-col :span="4" :offset="12">
         <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getReportList">
             <el-button slot="append" icon="el-icon-search" @click="getReportList"></el-button>
         </el-input>
@@ -46,8 +49,12 @@
 </template>
 
 <script>
+import util from '@/libs/util'
+import switchProject from '@/components/switchProject'
+
 export default {
   name: 'apiTestReport',
+  components: { switchProject },
   data () {
     return {
       // 查询条件
@@ -63,6 +70,11 @@ export default {
       // 控制表头颜色
       tableHeaderColor: { background: '#FAFAFA' }
     }
+  },
+  mounted () {
+    // 获取当前项目名称
+    const projectName = JSON.parse(util.cookies.get('project')).label
+    this.$refs.switchPro.currentPro = projectName
   },
   created () {
     this.getReportList()
@@ -87,6 +99,10 @@ export default {
     handleCurrentChange (newPage) {
       this.queryInfo.pagenum = newPage
       this.getReportList()
+    },
+    // 切换项目
+    switchProject () {
+      this.getReportList()
     }
   }
 }
@@ -98,5 +114,10 @@ export default {
   }
   .pagination-box {
     margin-top: 25px;
+  }
+  .switch-project {
+    display:flex;
+    // justify-content:center;/*主轴上居中*/
+    align-items:center;/*侧轴上居中*/
   }
 </style>
