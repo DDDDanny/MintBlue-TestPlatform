@@ -149,12 +149,12 @@ export default {
         }
         if (!this.isEdit) {
           // 获取Project ID
-          const proID = util.cookies.get('project')
-          if (proID === 'NULL') {
+          const proInfo = util.cookies.get('project')
+          if (proInfo === 'NULL') {
             this.$message.error('没有可用的项目，请添加项目后重试')
             return
           }
-          this.versionInfoForm.projectID = proID
+          this.versionInfoForm.projectID = JSON.parse(proInfo).value
           // 新增版本号逻辑写在这
           const res = await this.$api.addVersion(this.versionInfoForm)
           if (res.status.code !== 0) {
