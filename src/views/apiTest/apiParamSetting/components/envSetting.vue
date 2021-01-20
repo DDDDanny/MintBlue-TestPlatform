@@ -145,13 +145,13 @@ export default {
         }
         if (!this.isEdit) {
           // 获取project ID
-          const proID = util.cookies.get('project')
-          if (proID === 'NULL') {
+          const proInfo = util.cookies.get('project')
+          if (proInfo === 'NULL') {
             this.$message.error('没有可用的项目，请添加项目后重试')
             return
           }
           // 新增环境信息逻辑写在这里
-          this.envInfoForm.projectID = proID
+          this.envInfoForm.projectID = JSON.parse(proInfo).value
           const res = await this.$api.addEnv(this.envInfoForm)
           if (res.status.code !== 0) {
             this.$message.error('新增环境信息失败！')
