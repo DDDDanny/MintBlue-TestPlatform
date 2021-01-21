@@ -97,7 +97,7 @@ export default {
     const projectName = JSON.parse(util.cookies.get('project')).label
     this.$refs.switchPro.currentPro = projectName
   },
-  created() {
+  created () {
     // 获取测试集合列表
     this.getSuiteList()
   },
@@ -105,8 +105,8 @@ export default {
     // 获取集合列表
     async getSuiteList () {
       // 获取projectID
-      const projectID = JSON.parse(util.cookies.get('project')).value
-      const res = await this.$api.listTestSuite({'proID': projectID})
+      const proID = JSON.parse(util.cookies.get('project')).value
+      const res = await this.$api.listTestSuite({ proID })
       if (res.status.code !== 0) {
         this.$message.error('获取测试集列表失败！')
         return
