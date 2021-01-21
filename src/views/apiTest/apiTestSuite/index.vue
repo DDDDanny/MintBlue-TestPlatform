@@ -12,8 +12,8 @@
       <el-col :span="24">
         <el-table :data="caseSuiteInfo" :header-cell-style="tableHeaderColor" border>
           <el-table-column label="用例集名称" prop="suiteName"></el-table-column>
-          <el-table-column label="备注" min-width="100" prop="suiteDesc"></el-table-column>
-          <el-table-column label="更新时间" width="150" prop="updateTime"></el-table-column>
+          <el-table-column label="备注" min-width="100" prop="remark"></el-table-column>
+          <el-table-column label="更新时间" width="200" prop="updateTime"></el-table-column>
           <el-table-column label="创建人" width="150" prop="creator"></el-table-column>
           <el-table-column label="操作" width="150" fixed="right">
             <template slot-scope="scope">
@@ -54,10 +54,8 @@ export default {
   components: { switchProject },
   data () {
     return {
-      caseSuiteInfo: [
-        { suiteName: 'Api测试集1', suiteDesc: '测试集备注信息1', updateTime: '2020.11.12', creator: 'DDDDanny' },
-        { suiteName: 'Api测试集2', suiteDesc: '测试集备注信息1', updateTime: '2020.11.13', creator: 'DDDDanny' }
-      ],
+      // 测试集列表数据
+      caseSuiteInfo: [],
       // 穿梭框标题
       transferTitles: ['待选用例', '已选用例'],
       // 待选数据
@@ -99,10 +97,21 @@ export default {
     const projectName = JSON.parse(util.cookies.get('project')).label
     this.$refs.switchPro.currentPro = projectName
   },
+  created() {
+    // 获取测试集合列表
+    this.getSuiteList()
+  },
   methods: {
     // 获取集合列表
-    getSuiteList () {
-      // 这里写获取测试集获取逻辑
+    async getSuiteList () {
+      // 获取projectID
+      const projectID = JSON.parse(util.cookies.get('project')).value
+      const res = await this.$api.listTestSuite({'proID': projectID})
+      if (res.status.code !== 0) {
+        this.$message.error('获取测试集列表失败！')
+        return
+      }
+      this.caseSuiteInfo = res.data
     },
     // 删除测试集
     delSuite () {
