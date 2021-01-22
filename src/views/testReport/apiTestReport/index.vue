@@ -82,7 +82,8 @@ export default {
   methods: {
     // 获取报告列表数据
     async getReportList () {
-      const res = await this.$api.listApiTestReport()
+      const proID = JSON.parse(util.cookies.get('project')).value
+      const res = await this.$api.listApiTestReport({ proID })
       if (res.status.code !== 0) {
         this.$message.error('获取测试报告列表失败！')
         return
