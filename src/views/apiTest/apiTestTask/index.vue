@@ -104,7 +104,7 @@ export default {
       ]
     }
   },
-  created() {
+  created () {
     this.getTaskList()
   },
   mounted () {
