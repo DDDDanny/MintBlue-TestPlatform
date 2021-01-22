@@ -91,6 +91,7 @@ export default {
     // 监听Tab是否变化
     changeTabFlag () {
       this.getCurrentProjectName()
+      this.getVersionList()
     }
   },
   mounted () {
@@ -105,7 +106,8 @@ export default {
     },
     // 获取版本号列表
     async getVersionList () {
-      const res = await this.$api.listVersion()
+      const proID = JSON.parse(util.cookies.get('project')).value
+      const res = await this.$api.listVersion({ proID })
       if (res.status.code !== 0) {
         this.$message.error('获取版本号列表失败')
         return
