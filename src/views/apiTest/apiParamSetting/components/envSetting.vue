@@ -91,6 +91,7 @@ export default {
     // 监听Tab是否变化
     changeTabFlag () {
       this.getCurrentProjectName()
+      this.getEnvList()
     }
   },
   mounted () {
@@ -107,6 +108,10 @@ export default {
     async getEnvList () {
       const proID = JSON.parse(util.cookies.get('project')).value
       const res = await this.$api.listEnv({ proID })
+      if (res.status.code !== 0) {
+        this.$message.error('获取参数列表失败！')
+        return
+      }
       this.envInfo = res.data
     },
     // 删除环境参数
