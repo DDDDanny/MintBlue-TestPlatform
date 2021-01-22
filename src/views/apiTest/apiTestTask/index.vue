@@ -116,7 +116,8 @@ export default {
     // 获取测试任务列表
     async getTaskList () {
       // 这里写获取任务列表的逻辑
-      const res = await this.$api.listTask()
+      const proID = JSON.parse(util.cookies.get('project')).value
+      const res = await this.$api.listTask({ proID })
       if (res.status.code !== 0) {
         this.$message.error('任务列表获取失败！')
         return
