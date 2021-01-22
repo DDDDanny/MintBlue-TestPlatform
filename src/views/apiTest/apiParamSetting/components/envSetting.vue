@@ -105,7 +105,8 @@ export default {
     },
     // 获取环境参数列表
     async getEnvList () {
-      const res = await this.$api.listEnv()
+      const proID = JSON.parse(util.cookies.get('project')).value
+      const res = await this.$api.listEnv({ proID })
       this.envInfo = res.data
     },
     // 删除环境参数
