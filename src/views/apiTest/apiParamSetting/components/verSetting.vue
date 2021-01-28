@@ -63,10 +63,7 @@ export default {
       // 控制弹框是否显示
       versionDialogDisplay: false,
       // 版本信息Form表单
-      versionInfoForm: {
-        version: '',
-        remark: ''
-      },
+      versionInfoForm: {},
       // 版本信息校验规则
       versionInfoRules: {
         version: [{ required: true, message: '请输入版本号', trigger: 'blur' }],
