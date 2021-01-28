@@ -64,10 +64,7 @@ export default {
       // 控制弹框是否显示
       envDialogDisplay: false,
       // 环境信息Form表单
-      envInfoForm: {
-        envName: '',
-        baseURL: ''
-      },
+      envInfoForm: {},
       // 环境信息校验规则
       envInfoRules: {
         envName: [{ required: true, message: '请输入环境名称', trigger: 'blur' }],
