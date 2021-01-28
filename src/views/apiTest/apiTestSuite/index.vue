@@ -30,8 +30,8 @@
         <el-form-item label="测试集名称" prop="suiteName">
           <el-input v-model="testSuiteForm.suiteName" autocomplete="off" placeholder="请输入测试集名称" clearable></el-input>
         </el-form-item>
-        <el-form-item label="备注" prop="suiteDesc">
-          <el-input v-model="testSuiteForm.suiteDesc" autocomplete="off" placeholder="请输入备注" clearable></el-input>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="testSuiteForm.remark" autocomplete="off" placeholder="请输入备注" clearable></el-input>
         </el-form-item>
         <el-form-item label="用例选择">
           <el-transfer v-model="selectData" :data="waitData" :titles="transferTitles"></el-transfer>
@@ -75,7 +75,7 @@ export default {
       // 新增测试集表单
       testSuiteForm: {
         suiteName: '',
-        suiteDesc: ''
+        remark: ''
       },
       // 测试集合规则
       testSuiteAddRules: {
@@ -137,16 +137,25 @@ export default {
     },
     // 提交新增项目信息
     handleSubmitInfo () {
-      this.$refs.testSuiteFormRef.validate((valid) => {
+      this.$refs.testSuiteFormRef.validate(async (valid) => {
         if (!valid) {
           this.$message.error('请填写必填项！')
           return
         }
         if (!this.isEdit) {
-          // 这里写新增项目的逻辑
-          // ---
-          // ---
-          // console.log(this.selectData)
+          // 获取project ID
+          const proInfo = util.cookies.get('project')
+          if (proInfo === 'NULL') {
+            this.$message.error('没有可用的项目，请添加项目后重试')
+            return
+          }
+          // 这里写新增的逻辑
+          this.testSuiteForm.proID = JSON.parse(proInfo).value
+          const res = await this.$api.addTestSuite(this.testSuiteForm)
+          if (res.status.code !== 0) {
+            this.$message.error('新增环境信息失败！')
+            return
+          }
           this.$message.success('新增测试集成功！')
         } else {
           // 这里写编辑项目的逻辑
@@ -156,6 +165,8 @@ export default {
         }
         // 隐藏弹框
         this.dialogDisplay = false
+        // 刷新列表
+        this.getSuiteList()
       })
     },
     // 处理弹窗关闭事件
