@@ -19,7 +19,7 @@
             <template slot-scope="scope">
               <el-button type="success" icon="el-icon-view" size="medium" circle/>
               <el-button type="primary" icon="el-icon-edit" size="medium" circle @click="editSuite(scope.row)"/>
-              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delSuite"/>
+              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delSuite(scope.row)"/>
             </template>
           </el-table-column>
         </el-table>
@@ -73,10 +73,7 @@ export default {
       // 控制弹框是否显示
       dialogDisplay: false,
       // 新增测试集表单
-      testSuiteForm: {
-        suiteName: '',
-        remark: ''
-      },
+      testSuiteForm: {},
       // 测试集合规则
       testSuiteAddRules: {
         suiteName: [
@@ -114,16 +111,23 @@ export default {
       this.caseSuiteInfo = res.data
     },
     // 删除测试集
-    delSuite () {
+    delSuite (suiteRow) {
       this.$confirm('此操作将永久删除该测试集, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
+      }).then(async () => {
         // 这里写删除测试集的逻辑
-        // ---
-        // ---
+        this.testSuiteForm.isDel = 1
+        this.testSuiteForm.suiteID = suiteRow.suiteID
+        const res = await this.$api.editTestSuite(this.testSuiteForm)
+        if (res.status.code !== 0) {
+          this.$message.error('删除失败！')
+          return
+        }
         this.$message.success('删除成功！')
+        // 刷新列表
+        this.getSuiteList()
       }).catch(() => {
         this.$message.info('您已取消删除～')
       })
