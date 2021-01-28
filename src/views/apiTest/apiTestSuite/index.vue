@@ -158,9 +158,12 @@ export default {
           }
           this.$message.success('新增测试集成功！')
         } else {
-          // 这里写编辑项目的逻辑
-          // ---
-          // ---
+          // 这里写编辑测试集的逻辑
+          const res = await this.$api.editTestSuite(this.testSuiteForm)
+          if (res.status.code !== 0) {
+            this.$message.error('测试集更新失败！')
+            return
+          }
           this.$message.success('测试集更新成功！')
         }
         // 隐藏弹框
@@ -178,14 +181,13 @@ export default {
     editSuite (proRow) {
       this.isEdit = true
       this.dialogDisplay = true
-      // console.log(proRow)
+      // 构建编辑信息
+      this.testSuiteForm.suiteID = proRow.suiteID
       this.testSuiteForm.suiteName = proRow.suiteName
-      this.testSuiteForm.suiteDesc = proRow.suiteDesc
-      // 获取编辑项目信息逻辑写在这
-      // ---
-      // ---
+      this.testSuiteForm.remark = proRow.remark
+      this.testSuiteForm.isDel = 0
     },
-    // 切换校区
+    // 切换项目
     switchProject () {
       // 重新获取列表
       this.getSuiteList()
