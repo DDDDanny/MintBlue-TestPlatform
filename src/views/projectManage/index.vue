@@ -50,10 +50,7 @@ export default {
       // 项目新增/编辑弹框
       projectDialogDisplay: false,
       // 新增项目表单
-      projectForm: {
-        projectName: '',
-        remark: ''
-      },
+      projectForm: {},
       projectAddRules: {
         projectName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' }
