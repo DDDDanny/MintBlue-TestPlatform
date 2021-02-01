@@ -38,12 +38,12 @@
         </el-form-item>
         <el-form-item label="测试集" prop="testSuite">
           <el-select v-model="testTaskForm.testSuite" placeholder="请选择测试集" class="selector-base">
-            <el-option v-for="(item, index) in testSuites" :key="index" :label="item.label" :value="item.value"/>
+            <el-option v-for="(item, index) in testSuites" :key="index" :label="item.suiteName" :value="item.suiteID"/>
           </el-select>
         </el-form-item>
         <el-form-item label="版本号" prop="version">
           <el-select v-model="testTaskForm.version" placeholder="请选择版本号" class="selector-base">
-            <el-option v-for="(item, index) in versions" :key="index" :label="item.label" :value="item.value"/>
+            <el-option v-for="(item, index) in versions" :key="index" :label="item.version" :value="item.verID"/>
           </el-select>
         </el-form-item>
         <el-form-item label="开始时间" prop="startTime">
@@ -93,15 +93,9 @@ export default {
         ]
       },
       // 测试集合
-      testSuites: [
-        { value: 'test-case-001', label: '测试集1' },
-        { value: 'test-case-002', label: '测试集2' }
-      ],
+      testSuites: [],
       // 版本号集合
-      versions: [
-        { value: 'version0001', label: 'V2.10.0' },
-        { value: 'version0002', label: 'V2.12.0' }
-      ]
+      versions: []
     }
   },
   created () {
@@ -140,14 +134,18 @@ export default {
       })
     },
     // 新增测试任务
-    addTestTask () {
+    async addTestTask () {
       this.isEdit = false
       this.dialogDisplay = true
       // 点击新增测试集时，清空一次表单数据
       // Object.keys(this.testTaskForm).forEach(key => (this.testTaskForm[key] = ''))
-      // 这里拉取下拉菜单数据
-      //
-      //
+      // 获取测试集下拉菜单数据
+      const proID = JSON.parse(util.cookies.get('project')).value
+      const suiteInfo = await this.$api.listTestSuite({ proID })
+      this.testSuites = suiteInfo.data
+      // 获取版本号下拉菜单数据
+      const versionInfo = await this.$api.listVersion({ proID })
+      this.versions = versionInfo.data
     },
     // 处理弹窗关闭事件
     handleCloseDialog () {
