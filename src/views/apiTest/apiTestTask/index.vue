@@ -20,12 +20,12 @@
           <el-table-column label="创建时间" width="200" prop="createTime"></el-table-column>
           <el-table-column label="创建人" min-width="50" prop="creator"></el-table-column>
           <el-table-column label="操作" width="250" fixed="right">
-            <template slot-scope="">
+            <template slot-scope="scope">
               <el-button type="success" icon="el-icon-view" size="medium" circle></el-button>
               <el-button type="primary" icon="el-icon-edit" size="medium" circle></el-button>
               <el-button type="info" icon="el-icon-switch-button" size="medium" circle></el-button>
               <el-button type="warning" icon="el-icon-caret-right" size="medium" circle></el-button>
-              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delTestTask"></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delTestTask(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -129,15 +129,19 @@ export default {
       this.caseTaskInfo = res.data
     },
     // 删除测试任务
-    delTestTask () {
+    delTestTask (taskRow) {
       this.$confirm('此操作将永久删除该测试任务, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        // 这里写删除测试集的逻辑
-        // ---
-        // ---
+      }).then(async () => {
+        const res = await this.$api.delTask({ taskID: taskRow.taskID })
+        if (res.status.code !== 0) {
+          this.$message.error('删除测试任务失败！')
+          return
+        }
+        // 刷新任务列表
+        this.getTaskList()
         this.$message.success('删除成功！')
       }).catch(() => {
         this.$message.info('您已取消删除～')
