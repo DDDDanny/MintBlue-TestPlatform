@@ -12,13 +12,13 @@
       <el-col :span="24">
         <el-table :data="caseTaskInfo" :header-cell-style="tableHeaderColor" border>
           <el-table-column label="任务名称" width="200" prop="taskName"></el-table-column>
-          <el-table-column label="测试集" width="100" prop="caseSuite"></el-table-column>
+          <el-table-column label="测试集" width="200" prop="caseSuite"></el-table-column>
           <el-table-column label="版本号" width="100" prop="version"></el-table-column>
           <el-table-column label="任务开始时间" width="200" prop="startTime"></el-table-column>
           <el-table-column label="任务结束时间" width="200" prop="endTime"></el-table-column>
           <el-table-column label="任务状态" width="100" prop="taskStatus"></el-table-column>
           <el-table-column label="创建时间" width="200" prop="createTime"></el-table-column>
-          <el-table-column label="创建人" min-width="100" prop="creator"></el-table-column>
+          <el-table-column label="创建人" min-width="50" prop="creator"></el-table-column>
           <el-table-column label="操作" width="250" fixed="right">
             <template slot-scope="">
               <el-button type="success" icon="el-icon-view" size="medium" circle></el-button>
@@ -31,23 +31,28 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog title="新增测试任务" :visible.sync="dialogDisplay" width="50%" @close="handleCloseDialog">
+    <el-dialog title="新增测试任务" :visible.sync="dialogDisplay" width="50%" @close="handleCloseDialog" :close-on-click-modal='false'>
       <el-form :model="testTaskForm" :rules="testTaskRules" ref="testTaskFormRef" label-width="80px">
         <el-form-item label="任务名称" prop="taskName">
           <el-input v-model="testTaskForm.taskName" autocomplete="off" placeholder="请输入任务名称"></el-input>
         </el-form-item>
-        <el-form-item label="测试集" prop="testSuite">
-          <el-select v-model="testTaskForm.testSuite" placeholder="请选择测试集" class="selector-base">
+        <el-form-item label="测试集" prop="suiteID">
+          <el-select v-model="testTaskForm.suiteID" placeholder="请选择测试集" class="selector-base">
             <el-option v-for="(item, index) in testSuites" :key="index" :label="item.suiteName" :value="item.suiteID"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="版本号" prop="version">
-          <el-select v-model="testTaskForm.version" placeholder="请选择版本号" class="selector-base">
+        <el-form-item label="版本号" prop="verID">
+          <el-select v-model="testTaskForm.verID" placeholder="请选择版本号" class="selector-base">
             <el-option v-for="(item, index) in versions" :key="index" :label="item.version" :value="item.verID"/>
           </el-select>
         </el-form-item>
+        <el-form-item label="执行环境" prop="envID">
+          <el-select v-model="testTaskForm.envID" placeholder="请选择执行环境" class="selector-base">
+            <el-option v-for="(item, index) in envs" :key="index" :label="item.envName" :value="item.envID"/>
+          </el-select>
+        </el-form-item>
         <el-form-item label="开始时间" prop="startTime">
-          <el-date-picker v-model="testTaskForm.startTime" type="datetime" placeholder="选择任务开始时间" default-time="12:00:00" class="selector-base"/>
+          <el-date-picker v-model="testTaskForm.startTime" type="datetime" placeholder="选择任务开始时间" default-time="12:00:00" class="selector-base" value-format="timestamp"/>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -82,11 +87,14 @@ export default {
         taskName: [
           { required: true, message: '请输入任务名称', trigger: 'blur' }
         ],
-        testSuite: [
+        suiteID: [
           { required: true, message: '请选择测试集', trigger: 'change' }
         ],
-        version: [
+        verID: [
           { required: true, message: '请选择版本号', trigger: 'change' }
+        ],
+        envID: [
+          { required: true, message: '请选择执行环境', trigger: 'change' }
         ],
         startTime: [
           { required: true, message: '请选择任务开始时间', trigger: 'blur' }
@@ -95,7 +103,9 @@ export default {
       // 测试集合
       testSuites: [],
       // 版本号集合
-      versions: []
+      versions: [],
+      // 执行环境集合
+      envs: []
     }
   },
   created () {
@@ -146,6 +156,9 @@ export default {
       // 获取版本号下拉菜单数据
       const versionInfo = await this.$api.listVersion({ proID })
       this.versions = versionInfo.data
+      // 获取执行环境下拉菜单数据
+      const envInfo = await this.$api.listEnv({ proID })
+      this.envs = envInfo.data
     },
     // 处理弹窗关闭事件
     handleCloseDialog () {
@@ -154,15 +167,20 @@ export default {
     },
     // 处理提交逻辑
     handleSubmit () {
-      this.$refs.testTaskFormRef.validate((valid) => {
+      this.$refs.testTaskFormRef.validate( async (valid) => {
         if (!valid) {
           this.$message.error('请填写所有必填项')
           return
         }
-        // 数据提交后的逻辑写在这里
-        //
-        //
-        // console.log(this.testTaskForm)
+        const proID = JSON.parse(util.cookies.get('project')).value
+        this.testTaskForm.proID = proID
+        const res = await this.$api.addTask(this.testTaskForm)
+        if (res.status.code !== 0) {
+          this.$message.error('获取测试任务列表失败！')
+          return
+        }
+        // 刷新任务列表
+        this.getTaskList()
         this.dialogDisplay = false
         this.$message.success('新增测试任务成功！')
       })
