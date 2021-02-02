@@ -167,7 +167,7 @@ export default {
     },
     // 处理提交逻辑
     handleSubmit () {
-      this.$refs.testTaskFormRef.validate( async (valid) => {
+      this.$refs.testTaskFormRef.validate(async (valid) => {
         if (!valid) {
           this.$message.error('请填写所有必填项')
           return
