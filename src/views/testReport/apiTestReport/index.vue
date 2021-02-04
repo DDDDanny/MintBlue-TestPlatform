@@ -4,7 +4,7 @@
       <el-col :span="8" class="switch-project">
         <switch-project @switchProject='switchProject' ref="switchPro" />
       </el-col>
-      <el-col :span="4" :offset="12">
+      <el-col :span="6" :offset="12">
         <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getReportList">
             <el-button slot="append" icon="el-icon-search" @click="getReportList"></el-button>
         </el-input>
