@@ -18,7 +18,7 @@
           <el-table-column label="任务结束时间" width="200" prop="endTime"></el-table-column>
           <el-table-column label="任务状态" width="100" prop="taskStatus"></el-table-column>
           <el-table-column label="创建时间" width="200" prop="createTime"></el-table-column>
-          <el-table-column label="创建人" min-width="50" prop="creator"></el-table-column>
+          <el-table-column label="创建人" min-width="100" prop="creator"></el-table-column>
           <el-table-column label="操作" width="250" fixed="right">
             <template slot-scope="scope">
               <el-button type="success" icon="el-icon-view" size="medium" circle></el-button>
