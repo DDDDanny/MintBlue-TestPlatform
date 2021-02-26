@@ -113,6 +113,10 @@ export default {
   },
   methods: {
     handleClose () {
+      this.addCaseForm = {
+        assertInfos: [{}],
+        paramInfos: [{}]
+      }
       this.$emit('handleClose')
     },
     handleSubmit () {
