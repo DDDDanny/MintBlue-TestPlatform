@@ -136,8 +136,8 @@ export default {
       })
     },
     // 提交测试用例
-    handleSubmit (val) {
-      console.log(val)
+    handleSubmit (caseInfo) {
+      console.log(caseInfo)
     },
     // 展示接口测试用例详情
     viewApiCase () {

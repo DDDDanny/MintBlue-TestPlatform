@@ -33,7 +33,7 @@
         </el-col>
         <el-col :span="22" :offset="1">
           <el-form-item label="请求内容">
-            <el-input type="textarea" :rows="5" v-model="addCaseForm.requestBody" placeholder="请输入请求内容"></el-input>
+            <el-input type="textarea" :rows="5" v-model="addCaseForm.requestBody" placeholder="请输入请求内容" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="22" :offset="1">
