@@ -101,13 +101,12 @@ export default {
     async getCaseList () {
       // 这里写获取任务列表的逻辑
       const proID = JSON.parse(util.cookies.get('project')).value
-      const res = await this.$api.listTestCase({proID})
+      const res = await this.$api.listTestCase({ proID })
       if (res.status.code !== 0) {
         this.$message.error('测试用例列表获取失败！')
         return
       }
       this.caseInfo = res.data
-      console.log(this.caseInfo);
       this.total = this.caseInfo.length
     },
     // pageSize 改变时会触发
