@@ -18,7 +18,13 @@
         <el-table style="width: 100%" :data="caseInfo" :header-cell-style="tableHeaderColor" border >
           <el-table-column label="#" type="index"></el-table-column>
           <el-table-column label="用例名称" width="250" prop="caseName"></el-table-column>
-          <el-table-column label="用例等级" width="100" prop="caseLevel"></el-table-column>
+          <el-table-column label="用例等级" width="100" prop="caseLevel">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.caseLevel === 1" type="danger">高</el-tag>
+              <el-tag v-if="scope.row.caseLevel === 2" type="warning">中</el-tag>
+              <el-tag v-if="scope.row.caseLevel === 3" type="success">低</el-tag>
+            </template>
+          </el-table-column>
           <el-table-column label="请求方式" width="100" prop="requestMethod">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.requestMethod === 1" type="warning">POST</el-tag>
@@ -27,7 +33,7 @@
           </el-table-column>
           <el-table-column label="请求URL" width="200" prop="requestUrl"></el-table-column>
           <el-table-column label="备注" width="200" prop="remark"></el-table-column>
-          <el-table-column label="更新时间" min-width="100" prop="updateTime"></el-table-column>
+          <el-table-column label="更新时间" min-width="200" prop="updateTime"></el-table-column>
           <el-table-column label="创建人" min-width="100" prop="creator"></el-table-column>
           <el-table-column label="操作" width="150" fixed='right'>
             <template slot-scope="">
