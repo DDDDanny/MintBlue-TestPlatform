@@ -21,8 +21,8 @@
           <el-table-column label="用例等级" width="100" prop="caseLevel"></el-table-column>
           <el-table-column label="请求方式" width="100" prop="requestMethod">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.requestMethod === 'POST'" type="warning">{{ scope.row.requestMethod }}</el-tag>
-              <el-tag v-if="scope.row.requestMethod === 'GET'" type="success">{{ scope.row.requestMethod }}</el-tag>
+              <el-tag v-if="scope.row.requestMethod === 1" type="warning">POST</el-tag>
+              <el-tag v-if="scope.row.requestMethod === 2" type="success">GET</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="请求URL" width="200" prop="requestUrl"></el-table-column>
@@ -65,11 +65,7 @@ export default {
   components: { addCaseForm, viewCaseInfo, switchProject },
   data () {
     return {
-      caseInfo: [
-        { caseName: '用户登录成功', caseLevel: '高', requestMethod: 'POST', requestUrl: '/login', remark: '成功', updateTime: '2020-11-16', creator: 'DDDDanny' },
-        { caseName: '用户登录失败（用户名错误）', caseLevel: '高', requestMethod: 'GET', requestUrl: '/login', remark: '用户名错误，登录失败', updateTime: '2020-11-16', creator: 'DDDDanny' },
-        { caseName: '用户登录失败（密码错误）', caseLevel: '高', requestMethod: 'POST', requestUrl: '/login', remark: '密码错误，登录失败', updateTime: '2020-11-16', creator: 'DDDDanny' }
-      ],
+      caseInfo: [],
       // 表格表头数据
       tableHeaderColor: { background: '#FAFAFA' },
       // 数据总数
@@ -96,10 +92,16 @@ export default {
   },
   methods: {
     // 获取用例列表信息
-    getCaseList () {
-      // 获取测试用例列表信息逻辑写在这
-      //
-      //
+    async getCaseList () {
+      // 这里写获取任务列表的逻辑
+      const proID = JSON.parse(util.cookies.get('project')).value
+      const res = await this.$api.listTestCase({proID})
+      if (res.status.code !== 0) {
+        this.$message.error('测试用例列表获取失败！')
+        return
+      }
+      this.caseInfo = res.data
+      console.log(this.caseInfo);
       this.total = this.caseInfo.length
     },
     // pageSize 改变时会触发
