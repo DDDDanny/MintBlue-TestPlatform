@@ -43,7 +43,7 @@ export default {
     font-size:20px;
   }
   ::v-deep .el-drawer__header {
-    box-shadow: 2px 0px 3px #888888;
+    box-shadow: 2px 0px 3px rgb(195 195 195 / 50%);
     padding-bottom: 10px;
     margin-bottom: 0px;
   }
