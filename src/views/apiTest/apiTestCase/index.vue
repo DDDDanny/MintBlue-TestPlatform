@@ -36,8 +36,8 @@
           <el-table-column label="更新时间" min-width="200" prop="updateTime"></el-table-column>
           <el-table-column label="创建人" min-width="100" prop="creator"></el-table-column>
           <el-table-column label="操作" width="150" fixed='right'>
-            <template slot-scope="">
-              <el-button type="success" icon="el-icon-view" size="medium" @click="viewApiCase" circle/>
+            <template slot-scope="scope">
+              <el-button type="success" icon="el-icon-view" size="medium" @click="viewApiCase(scope.row)" circle/>
               <el-button type="primary" icon="el-icon-edit" size="medium" circle/>
               <el-button type="danger" icon="el-icon-delete" size="medium" circle @click="delApiCase"/>
             </template>
@@ -56,7 +56,7 @@
         :total="total"/>
     </div>
     <add-case-form :drawerVisible="tempPageVisible" @handleClose="handleClose" @handleSubmit="handleSubmit" />
-    <view-case-info :drawer-visible="viewTempPageVisible" @handleClose="handleViewClose"/>
+    <view-case-info :drawer-visible="viewTempPageVisible" :case-info-detail="caseInfoDetail" @handleClose="handleViewClose"/>
   </d2-container>
 </template>
 
@@ -85,7 +85,9 @@ export default {
       // TempPage 开关
       tempPageVisible: false,
       // View TempPage 开关
-      viewTempPageVisible: false
+      viewTempPageVisible: false,
+      // 测试用例详情
+      caseInfoDetail: {}
     }
   },
   created () {
@@ -147,10 +149,9 @@ export default {
       console.log(caseInfo)
     },
     // 展示接口测试用例详情
-    viewApiCase () {
-      // 这里写数据详情展示的逻辑
-      //
-      //
+    viewApiCase (row) {
+      // 获取case info detail
+      this.caseInfoDetail = row
       this.viewTempPageVisible = true
     },
     // 处理查看数据临时页的关闭事件
