@@ -36,9 +36,15 @@ export default {
     display: flex;
     flex-direction: column;
     height: calc(100% - 78px);
+    padding-top: 20px;
   }
   .temp-title {
     color: #000000;
     font-size:20px;
+  }
+  ::v-deep .el-drawer__header {
+    box-shadow: 2px 0px 3px #888888;
+    padding-bottom: 10px;
+    margin-bottom: 0px;
   }
 </style>
