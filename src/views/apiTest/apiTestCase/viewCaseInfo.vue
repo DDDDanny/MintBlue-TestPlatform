@@ -44,12 +44,12 @@ export default {
     },
     caseInfoDetail: {
       type: Object,
-      default: {}
+      default: null
     }
   },
   data () {
     return {
-      tempPageTitle: '用例详情',
+      tempPageTitle: '用例详情'
     }
   },
   methods: {
